@@ -1,4 +1,4 @@
-from Engine.DB.config import db
+from Engine.Configuration.config import db
 from marshmallow import Schema, fields
 from datetime import datetime
 

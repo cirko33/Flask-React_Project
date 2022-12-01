@@ -1,16 +1,21 @@
 # Using ubuntu image
-FROM ubuntu:22.04
+FROM python:3.9-alpine
+
+# Installing packages
+RUN apk --update --no-cache add python3-dev libffi-dev gcc musl-dev make libevent-dev build-base
+RUN pip install --no-cache-dir pipenv
 
 # Defining working directory
-WORKDIR /bin
+WORKDIR /usr/src/app
 
-# Installing programs
-RUN apt-get update
-RUN apt-get -y python3
-RUN apt-get -y install mysql-server-8.0
+# Adding source code
+COPY Pipfile Dockerfile ./
+COPY User.py CreditCard.py Transaction.py ./Engine/Models/
+COPY config.py ./Engine/Configuration
 
-# ISPOD MOZEMO DODAVATI FAJLOVE PROJEKTA
-#COPY FAJLOVI
+#Install API dependencies
+RUN pipenv install
 
 #START APP AND SERVERS
 #EXPOSE port
+#ENRTYPOINT
