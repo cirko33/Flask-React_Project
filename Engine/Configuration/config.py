@@ -1,15 +1,15 @@
 from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmellow
-from flask_mysqldb import MYSQL
+from flask_marshmallow import Marshmallow
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 api = Api(app)
 db = SQLAlchemy()
-ma = Marshmellow()
+ma = Marshmallow()
 
-mysql = MYSQL()
+mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'drs'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'drs22'
 app.config['MYSQL_DATABASE_DB'] = 'drsdb'
