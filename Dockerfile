@@ -18,5 +18,5 @@ COPY app.py ./Engine/Routes
 RUN pipenv install
 
 #START APP AND SERVERS
-#EXPOSE port
+EXPOSE 5000
 #ENRTYPOINT
