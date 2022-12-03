@@ -12,6 +12,7 @@ WORKDIR /usr/src/app
 COPY Pipfile Dockerfile ./
 COPY User.py CreditCard.py Transaction.py ./Engine/Models/
 COPY config.py ./Engine/Configuration
+COPY app.py ./Engine/Routes
 
 #Install API dependencies
 RUN pipenv install
