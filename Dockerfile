@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir pipenv
 WORKDIR /usr/src/app
 
 # Adding source code
-COPY Pipfile Dockerfile ./
+COPY Pipfile Dockerfile bootstrap.sh ./
 COPY Engine ./Engine
 
 #Install API dependencies
@@ -17,4 +17,4 @@ RUN pipenv install
 
 #START APP AND SERVERS
 EXPOSE 5000
-#ENRTYPOINT
+ENTRYPOINT ["/usr/src/app/bootstrap.sh"]
