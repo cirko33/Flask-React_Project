@@ -12,3 +12,17 @@ def addPerson():
     user = User(firstName="Zdravko", lastName="Milinkovic", address="Bihacka 33",city="Subotica",phoneNumber="024323232",email="zdravko@gmail.com",password="zdravko123")
     db.session.add(user)
     db.session.commit()
+    return 200;
+
+@app.route('/login')
+def loginPerson():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    #form will exist later
+    cursor.execute("select * from user where email={form.email} and password={form.password}")
+    user = cursor.fetchone()
+    if(user == None):
+        return 404;
+    else:
+        session["user"] = user;
+        return 200;
