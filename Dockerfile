@@ -1,4 +1,4 @@
-# Using ubuntu image
+# Using alpine image
 FROM python:3.9-alpine
 
 # Installing packages
@@ -10,9 +10,7 @@ WORKDIR /usr/src/app
 
 # Adding source code
 COPY Pipfile Dockerfile ./
-COPY User.py CreditCard.py Transaction.py ./Engine/Models/
-COPY config.py ./Engine/Configuration
-COPY app.py ./Engine/Routes
+COPY Engine ./Engine
 
 #Install API dependencies
 RUN pipenv install
