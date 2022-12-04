@@ -1,4 +1,4 @@
-# Using ubuntu image
+# Using alpine image
 FROM python:3.9-alpine
 
 # Installing packages
@@ -9,14 +9,12 @@ RUN pip install --no-cache-dir pipenv
 WORKDIR /usr/src/app
 
 # Adding source code
-COPY Pipfile Dockerfile ./
-COPY User.py CreditCard.py Transaction.py ./Engine/Models/
-COPY config.py ./Engine/Configuration
-COPY app.py ./Engine/Routes
+COPY Pipfile Dockerfile bootstrap.sh ./
+COPY Engine ./Engine
 
 #Install API dependencies
 RUN pipenv install
 
 #START APP AND SERVERS
 EXPOSE 5000
-#ENRTYPOINT
+ENTRYPOINT ["/usr/src/app/bootstrap.sh"]
