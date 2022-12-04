@@ -1,4 +1,4 @@
-from Engine.Configuration.config import db
+from Configuration.config import db
 from marshmallow import Schema, fields
 class User(db.Model):
     __tablename__ = 'user'
