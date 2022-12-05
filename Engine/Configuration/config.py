@@ -5,18 +5,15 @@ from flask_marshmallow import Marshmallow
 from flaskext.mysql import MySQL
 
 app = Flask(__name__)
-api = Api(app)
-db = SQLAlchemy()
-ma = Marshmallow()
 
-mysql = MySQL()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://drs:Drs_2022@localhost/drsdb'
 app.config['MYSQL_DATABASE_USER'] = 'drs'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'drs22'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'Drs_2022'
 app.config['MYSQL_DATABASE_DB'] = 'drsdb'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-mysql.init_app(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://drs:drs22@localhost/drsdb'
+api = Api(app)
+db = SQLAlchemy(app)
+ma = Marshmallow(app)
+mysql = MySQL(app)
 
-db.init_app(app)
-ma.init_app(app)

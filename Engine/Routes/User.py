@@ -21,8 +21,8 @@ class Login(Resource):
                 else:
                     session['user'] = temp
                     return jsonify(temp), 200
-        except:
-            return "Server failed", 500
+        except Exception as e:
+            return f"Server failed {str(e)}", 500
 
 api.add_resource(Login, "/login")
 

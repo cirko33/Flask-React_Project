@@ -1,0 +1,22 @@
+version: '3'
+services:
+  app:
+    build: ./Engine
+    links:
+      -db
+    ports:
+      -"5000:5000"
+
+  db:
+    image: mysql:8.0
+    ports:
+      -"9000:3306"
+    entrypoint: 
+      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: drsdb
+      MYSQL_USER: drs
+      MYSQL_PASSWORD: Drs_2022
+      MYSQL_DATABASE_HOST: 0.0.0.0
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d/:ro
