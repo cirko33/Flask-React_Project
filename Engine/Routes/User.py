@@ -40,9 +40,9 @@ class Register(Resource):
     def post(self):
         db.create_all()
         args = userRegistrationArgs.parse_args()
-
-        temp = User.query.filter_by(email=args['email']).first()
+        
         try:
+            temp = User.query.filter_by(email=args['email']).first()
             if temp:
                 return "E mail is taken!", 404
         except:
@@ -57,12 +57,44 @@ class Register(Resource):
 
 api.add_resource(Register, "/register")
 
+userUpdateArgs = reqparse.RequestParser()
+userUpdateArgs.add_argument("firstName", type=str)
+userUpdateArgs.add_argument("lastName", type=str)
+userUpdateArgs.add_argument("email", type=str)
+userUpdateArgs.add_argument("address", type=str)
+userUpdateArgs.add_argument("city", type=str)
+userUpdateArgs.add_argument("phoneNumber", type=int)
+userUpdateArgs.add_argument("password", type=str)
+
 #User profile get and put (change)
 class User(Resource):
-    def get(self):
-        return "user-get"
-    
-    def put(self):
-        return "user-put"
+    def patch(self, user_email):
+        db.create_all()
+        args = userUpdateArgs.parse_args()
+        try:
+            temp = User.query.filter_by(email=user_email).first()
+            if not temp:
+                return "User with this email doesn't exist", 404          
+
+            #if firstName in args && args['firstName'] not None === args['firstName']
+            if args['firstName']: 
+                temp.firstName = args['firstName'];
+            if args['lastName']: 
+                temp.lastName = args['lastName'];
+            if args['email']: 
+                temp.email = args['email'];
+            if args['address']: 
+                temp.address = args['address'];
+            if args['city']: 
+                temp.city = args['city'];
+            if args['phoneNumber']:
+                temp.phoneNumber = args['phoneNumber'];
+            if args['password']: 
+                temp.password = args['password'];
+
+            db.session.commit()
+            return jsonify(temp), 200
+        except:
+            return "Server failed", 500
 
 api.add_resource(User, "/user")
