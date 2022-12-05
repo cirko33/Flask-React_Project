@@ -13,6 +13,7 @@ mysql-connector-python = "*"
 flask-sqlalchemy = "*"
 flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
+flask_restful = "*"
 
 [dev-packages]
 

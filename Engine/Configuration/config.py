@@ -2,7 +2,7 @@ from flask import Flask, session, jsonify
 from flask_restful import Api, reqparse, Resource
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-from flask_mysqldb import MySQL
+from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 api = Api(app)
