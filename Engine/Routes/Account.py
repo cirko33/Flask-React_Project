@@ -1,8 +1,10 @@
 from Configuration.config import *
 from flask_restful import Resource
+from Models import *
 
 accountAddingArgs = reqparse.RequestParser()
 accountAddingArgs.add_argument("userEmail", type=str, help="User email is required", required=True)
+accountAddingArgs.add_argument("cardNumber", type=int)
 
 #Account
 class Account(Resource):
@@ -15,9 +17,11 @@ class Account(Resource):
 
     def post(self):
         args = accountAddingArgs.parse_args()
-        account = Account(userEmail=args['userEmail'])
-        #pozvati get za karticu da se skine 1$ za kreiranje racuna 
+        account = Account(userEmail=args['userEmail'], cardNumber = args['cardNumber'])
+        card = CreditCard.query.filter_by(cardNumber = args['cardNumber'])
+        card.amount - 111; 
         db.session.add(account)
+        db.session.add(card)
         db.session.commit()
         return jsonify(account), 200
 

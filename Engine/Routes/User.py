@@ -67,7 +67,7 @@ userUpdateArgs.add_argument("phoneNumber", type=int)
 userUpdateArgs.add_argument("password", type=str)
 
 #User profile get and put (change)
-class User(Resource):
+class UserProfile(Resource):
     def patch(self, user_email):
         db.create_all()
         args = userUpdateArgs.parse_args()

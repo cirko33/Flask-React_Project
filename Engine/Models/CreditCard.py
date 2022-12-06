@@ -9,14 +9,15 @@ class CreditCard(db.Model):
     expirationDate = db.Column(db.DateTime, default = datetime.utcnow)
     cvc = db.Column(db.Integer)
     userEmail = db.Column(db.String(64))
+    amount = db.Column(db.Float)
 
-
-    def __init__(self, cardNumber, userName, expirationDate, cvc, userEmail):
+    def __init__(self, cardNumber, userName, expirationDate, cvc, userEmail, amount):
         self.cardNumber = cardNumber
         self.userName = userName
         self.expirationDate = expirationDate
         self.cvc = cvc
         self.userEmail = userEmail
+        self.amount = amount
 
 class CreditCardSchema(Schema):
     cardNumber = fields.Number()
@@ -24,3 +25,4 @@ class CreditCardSchema(Schema):
     expirationDate = fields.Str()
     cvc = fields.Number()
     userEmail = fields.Str()
+    amount = fields.Float()
