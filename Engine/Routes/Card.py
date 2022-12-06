@@ -13,7 +13,7 @@ creditCardAddingArgs.add_argument("amount", type=float, help="amount is required
 class Card(Resource):
     def get(self, data):
         if isinstance(data, int):
-            temp = Card.query.filter_by(cardNumber=data).first();
+            temp = Card.query.filter_by(cardNumber=data).first()
             if not temp:
                 return "Card with this number doesn't exist", 404
             else:
@@ -47,14 +47,14 @@ api.add_resource(Card, "/card")
 #Credit card balance get and post (withdraw of money)
 class CardBalance(Resource):
     def get(self, card_number):
-        temp = Card.query.filter_by(cardNumber=card_number).first();
+        temp = Card.query.filter_by(cardNumber=card_number).first()
         if not temp:
             return "Card with this number doesn't exist", 404
         else:
             return temp.amount, 200
     
     def post(self, card_number, value, type):
-        temp = Card.query.filter_by(cardNumber=card_number).first();
+        temp = Card.query.filter_by(cardNumber=card_number).first()
         if (type == 1): #deposit
             temp.amount += value
         elif (type == 2): #withdraw
@@ -65,7 +65,7 @@ class CardBalance(Resource):
         else:
             return "Error!", 404
         
-        db.session.commit();
-        return 200;
+        db.session.commit()
+        return 200
 
 api.add_resource(CardBalance, "/balance")

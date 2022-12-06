@@ -1,5 +1,6 @@
 from Configuration.config import db
 from marshmallow import Schema, fields
+import random 
 
 class Account(db.Model):
     __tablename__ = 'credit_card'
@@ -8,10 +9,10 @@ class Account(db.Model):
     balance = db.Column(db.Float)
 
 
-    def __init__(self, accountNumber, userEmail, balance):
-        self.accountNumber = accountNumber
+    def __init__(self, userEmail):
+        self.accountNumber = random(18)
         self.userEmail = userEmail
-        self.balance = balance
+        self.balance = 0.0
 
 class CreditCardSchema(Schema):
     accountNumber = fields.Number()
