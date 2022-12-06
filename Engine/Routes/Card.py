@@ -68,4 +68,4 @@ class CardBalance(Resource):
         db.session.commit()
         return 200
 
-api.add_resource(CardBalance, "/balance")
+api.add_resource(CardBalance, "/cardBalance")
