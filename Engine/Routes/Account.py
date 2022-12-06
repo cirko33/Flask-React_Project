@@ -1,13 +1,13 @@
 from Configuration.config import *
 from flask_restful import Resource
-from Models import *
+from Models import Account, CreditCard
 
 accountAddingArgs = reqparse.RequestParser()
 accountAddingArgs.add_argument("userEmail", type=str, help="User email is required", required=True)
 accountAddingArgs.add_argument("cardNumber", type=int)
 
 #Account
-class Account(Resource):
+class AccountProfile(Resource):
     def get(self, email):
         temp = Account.query.filter_by(userEmail=email).first()
         if not temp:

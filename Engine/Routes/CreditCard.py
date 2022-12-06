@@ -1,5 +1,6 @@
 from Configuration.config import *
 from flask_restful import Resource
+from Models import *
 
 creditCardAddingArgs = reqparse.RequestParser()
 creditCardAddingArgs.add_argument("cardNumber", type=int, help="Card Number is required", required=True)
@@ -13,13 +14,13 @@ creditCardAddingArgs.add_argument("amount", type=float, help="amount is required
 class Card(Resource):
     def get(self, data):
         if isinstance(data, int):
-            temp = Card.query.filter_by(cardNumber=data).first()
+            temp = CreditCard.query.filter_by(cardNumber=data).first()
             if not temp:
                 return "Card with this number doesn't exist", 404
             else:
                 return jsonify(temp), 200
         else:
-            temp = Card.query.filter_by(userEmail=data).first()
+            temp = CreditCard.query.filter_by(userEmail=data).first()
             if not temp:
                 return "User with this email does not own any cards", 404
             else:
@@ -30,13 +31,13 @@ class Card(Resource):
         args = creditCardAddingArgs.parse_args()
         
         try:
-            temp = Card.query.filter_by(cardNumber=args['cardNumber']).first()
+            temp = CreditCard.query.filter_by(cardNumber=args['cardNumber']).first()
             if temp:
                 return "Card with this number already exists!", 404
         except:
             return "Server failed", 500
 
-        card = Card(cardNumber=args['cardNumber'], userName=args['userName'], 
+        card = CreditCard(cardNumber=args['cardNumber'], userName=args['userName'], 
         expirationDate=args['expirationDate'], cvc=args['cvc'], userEmail=args['userEmail'], amount=args["amount"])        
         db.session.add(card)
         db.session.commit()
@@ -47,14 +48,14 @@ api.add_resource(Card, "/card")
 #Credit card balance get and post (withdraw of money)
 class CardBalance(Resource):
     def get(self, card_number):
-        temp = Card.query.filter_by(cardNumber=card_number).first()
+        temp = CreditCard.query.filter_by(cardNumber=card_number).first()
         if not temp:
             return "Card with this number doesn't exist", 404
         else:
             return temp.amount, 200
     
     def post(self, card_number, value, type):
-        temp = Card.query.filter_by(cardNumber=card_number).first()
+        temp = CreditCard.query.filter_by(cardNumber=card_number).first()
         if (type == 1): #deposit
             temp.amount += value
         elif (type == 2): #withdraw
