@@ -6,11 +6,11 @@ from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://drs:Drs_2022@localhost/drsdb'
-app.config['MYSQL_DATABASE_USER'] = 'drs'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Drs_2022@localhost:9000/drsdb'
+app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Drs_2022'
 app.config['MYSQL_DATABASE_DB'] = 'drsdb'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost:9000'
 
 api = Api(app)
 db = SQLAlchemy(app)
