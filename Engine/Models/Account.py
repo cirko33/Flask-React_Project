@@ -3,7 +3,7 @@ from marshmallow import Schema, fields
 import random 
 
 class Account(db.Model):
-    __tablename__ = 'credit_card'
+    __tablename__ = 'account'
     accountNumber = db.Column(db.Integer, primary_key=True)
     userEmail = db.Column(db.String(64))
     amount = db.Column(db.Float)

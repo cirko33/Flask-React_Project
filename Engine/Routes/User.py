@@ -97,4 +97,4 @@ class UserProfile(Resource):
         except:
             return "Server failed", 500
 
-api.add_resource(User, "/user")
+api.add_resource(UserProfile, "/user")
