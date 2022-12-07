@@ -9,22 +9,20 @@ services:
       MYSQL_ROOT_PASSWORD: Drs_2022
       MYSQL_DATABASE: drsdb
     volumes:
-      - ./Engine/DB/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
-  app:
-    build: ./
+      - ./DB/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
+
+  engine:
+    build: 
+      dockerfile: ./Dockerfile
     depends_on:
       - db
     ports:
       - "5000:5000"
-    environment: 
-      MYSQL_DATABASE: drsdb
-      MYSQL_USER: root
-      MYSQL_PASSWORD: Drs_2022
-      MYSQL_DATABASE_HOST: db
     links:
       - db
     volumes:
       - ./:/usr/src/app/
+
 volumes:
   db:
     driver: local
