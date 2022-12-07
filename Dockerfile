@@ -9,7 +9,8 @@ RUN pip install --no-cache-dir pipenv
 WORKDIR /usr/src/app
 
 # Adding source code
-COPY Pipfile Dockerfile bootstrap.sh docker-compose.yml ./
+COPY . /usr/src/app/
+RUN chmod 755 bootstrap.sh
 COPY Engine/ ./Engine
 
 #Install API dependencies
