@@ -18,5 +18,4 @@ RUN pipenv install
 ENV PYTHONPATH="/usr/src/app/Engine"
 
 #START APP AND SERVERS
-#ENTRYPOINT ["../bootstrap.sh"]
-RUN ls
+ENTRYPOINT ["../bootstrap.sh"]
