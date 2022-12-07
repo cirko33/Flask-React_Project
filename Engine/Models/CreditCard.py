@@ -21,7 +21,7 @@ class CreditCard(db.Model):
 
 class CreditCardSchema(Schema):
     cardNumber = fields.Number()
-    name = fields.Str()
+    userName = fields.Str()
     expirationDate = fields.Str()
     cvc = fields.Number()
     userEmail = fields.Str()
