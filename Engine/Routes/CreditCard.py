@@ -26,7 +26,7 @@ class Card(Resource):
             else:
                 return jsonify(temp), 200
     
-    #za racun vrv jer ne pravimo karticu
+    #Verifikacija
     def post(self):
         args = creditCardAddingArgs.parse_args()
         
@@ -54,17 +54,12 @@ class CardBalance(Resource):
         else:
             return temp.amount, 200
     
-    def post(self, card_number, value, type):
+    def post(self, card_number, value):
         temp = CreditCard.query.filter_by(cardNumber=card_number).first()
-        if (type == 1): #deposit
-            temp.amount += value
-        elif (type == 2): #withdraw
-            if value > temp.amount:
-                return "You dont have enought money!", 404
-            else:
-                temp.amount -= value 
+        if value > temp.amount:
+            return "You dont have enought money!", 404
         else:
-            return "Error!", 404
+            temp.amount -= value        
         
         db.session.commit()
         return 200

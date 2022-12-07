@@ -8,6 +8,9 @@ accountAddingArgs.add_argument("cardNumber", type=int)
 
 #Account
 class AccountProfile(Resource):
+    '''
+    Account profile get (get profile by email) and post (post profile) ?
+    '''
     def get(self, email):
         temp = Account.query.filter_by(userEmail=email).first()
         if not temp:
@@ -19,7 +22,7 @@ class AccountProfile(Resource):
         args = accountAddingArgs.parse_args()
         account = Account(userEmail=args['userEmail'], cardNumber = args['cardNumber'])
         card = CreditCard.query.filter_by(cardNumber = args['cardNumber'])
-        card.amount - 111; 
+        card.amount -= 111 
         db.session.add(account)
         db.session.add(card)
         db.session.commit()
