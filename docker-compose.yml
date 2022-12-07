@@ -31,4 +31,5 @@ volumes:
 
 networks:
   default:
-    driver: bridge
+    external:
+      name: mynet
