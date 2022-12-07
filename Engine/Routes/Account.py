@@ -1,10 +1,6 @@
 from Configuration.config import *
 from flask_restful import Resource
-from Models import Account, CreditCard
-
-accountAddingArgs = reqparse.RequestParser()
-accountAddingArgs.add_argument("userEmail", type=str, help="User email is required", required=True)
-accountAddingArgs.add_argument("cardNumber", type=int)
+from Models import Account
 
 #Account
 class AccountProfile(Resource):
@@ -18,17 +14,7 @@ class AccountProfile(Resource):
         else:
             return jsonify(temp), 200
 
-    def post(self):
-        args = accountAddingArgs.parse_args()
-        account = Account(userEmail=args['userEmail'], cardNumber = args['cardNumber'])
-        card = CreditCard.query.filter_by(cardNumber = args['cardNumber'])
-        card.amount -= 111 
-        db.session.add(account)
-        db.session.add(card)
-        db.session.commit()
-        return jsonify(account), 200
-
-api.add_resource(Account, "/account")
+api.add_resource(AccountProfile, "/accountProfile")
 
 #Account balance get and post (withdraw of money)
 class AccountBalance(Resource):

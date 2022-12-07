@@ -1,14 +1,11 @@
 from Configuration.config import *
 from flask_restful import Resource
-from Models import *
+from Models import CreditCard, Account
 
 creditCardAddingArgs = reqparse.RequestParser()
 creditCardAddingArgs.add_argument("cardNumber", type=int, help="Card Number is required", required=True)
-creditCardAddingArgs.add_argument("userName", type=str, help="user name is required", required=True)
 creditCardAddingArgs.add_argument("expirationDate", type=str, help="Date is required", required=True)
 creditCardAddingArgs.add_argument("cvc", type=int, help="CVC is required", required=True)
-creditCardAddingArgs.add_argument("userEmail", type=str, help="user email is required", required=True)
-creditCardAddingArgs.add_argument("amount", type=float, help="amount is required", required=True)
 
 #Credit card get and post (adding credit card)
 class Card(Resource):
@@ -27,21 +24,25 @@ class Card(Resource):
                 return jsonify(temp), 200
     
     #Verifikacija
-    def post(self):
+    def post(self, userEmail):
         args = creditCardAddingArgs.parse_args()
         
         try:
-            temp = CreditCard.query.filter_by(cardNumber=args['cardNumber']).first()
-            if temp:
-                return "Card with this number already exists!", 404
+            card = CreditCard.query.filter_by(cardNumber=userEmail).first()
+            if not card:
+                return "You don't have any credit card!", 404
         except:
             return "Server failed", 500
 
-        card = CreditCard(cardNumber=args['cardNumber'], userName=args['userName'], 
-        expirationDate=args['expirationDate'], cvc=args['cvc'], userEmail=args['userEmail'], amount=args["amount"])        
-        db.session.add(card)
-        db.session.commit()
-        return jsonify(card), 200
+        if(card.cardNumber == args['cardNumber'] and card.cvc == args['cvc'] and card.expirationDate == args['expirationDate']):
+            account = Account(userEmail=userEmail, cardNumber = args['cardNumber'])
+            card.amount -= 111
+            db.session.add(account)
+            db.session.add(card)
+            db.session.commit()
+            return jsonify(account), 200
+        else:
+            return "Invalid card data! Please try again!", 404
 
 api.add_resource(Card, "/card")
 
