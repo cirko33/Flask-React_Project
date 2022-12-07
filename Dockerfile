@@ -8,14 +8,14 @@ RUN pip install --no-cache-dir pipenv
 # Defining working directory
 WORKDIR /usr/src/app
 
-ENV PYTHONPATH="/usr/src/app/Engine"
-
 # Adding source code
 COPY Pipfile Dockerfile bootstrap.sh docker-compose.yml ./
 COPY Engine/ ./Engine
 
 #Install API dependencies
 RUN pipenv install
+
+ENV PYTHONPATH="/usr/src/app/Engine"
 
 #START APP AND SERVERS
 ENTRYPOINT ["/usr/src/app/bootstrap.sh"]
