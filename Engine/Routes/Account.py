@@ -14,7 +14,7 @@ class AccountProfile(Resource):
         else:
             return jsonify(temp), 200
 
-api.add_resource(Account, "/account")
+api.add_resource(AccountProfile, "/accountProfile")
 
 #Account balance get and post (withdraw of money)
 class AccountBalance(Resource):
