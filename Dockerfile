@@ -18,4 +18,5 @@ COPY Engine/ ./Engine
 RUN pipenv install
 
 #START APP AND SERVERS
-ENTRYPOINT ["/usr/src/app/bootstrap.sh"]
+#ENTRYPOINT ["../bootstrap.sh"]
+RUN ls
