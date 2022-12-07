@@ -1,6 +1,6 @@
 from Configuration.config import *
 from flask_restful import Resource
-from Models import CreditCard, Account
+from Models import CreditCard, Account, User
 
 creditCardAddingArgs = reqparse.RequestParser()
 creditCardAddingArgs.add_argument("cardNumber", type=int, help="Card Number is required", required=True)
@@ -24,19 +24,21 @@ class Card(Resource):
                 return jsonify(temp), 200
     
     #Verifikacija
-    def post(self, userEmail):
+    def post(self, dataEmail):
         args = creditCardAddingArgs.parse_args()
         
         try:
-            card = CreditCard.query.filter_by(cardNumber=userEmail).first()
+            card = CreditCard.query.filter_by(userEmail=dataEmail).first()
             if not card:
                 return "You don't have any credit card!", 404
         except:
             return "Server failed", 500
 
         if(card.cardNumber == args['cardNumber'] and card.cvc == args['cvc'] and card.expirationDate == args['expirationDate']):
-            account = Account(userEmail=userEmail, cardNumber = args['cardNumber'])
+            account = Account(userEmail=dataEmail, cardNumber = args['cardNumber'])
             card.amount -= 111
+            user = User.query.filter_by(email=dataEmail).first()
+            user.verified = True
             db.session.add(account)
             db.session.add(card)
             db.session.commit()

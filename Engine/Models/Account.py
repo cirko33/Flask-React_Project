@@ -8,6 +8,7 @@ class Account(db.Model):
     userEmail = db.Column(db.String(64))
     amount = db.Column(db.Float)
     cardNumber = db.Column(db.Integer)
+    
 
     def __init__(self, userEmail, cardNumber):
         self.accountNumber = random(18)
