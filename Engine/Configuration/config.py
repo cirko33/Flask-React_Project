@@ -22,3 +22,4 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 mysql = MySQL(app)
 
+activeTokens = { }

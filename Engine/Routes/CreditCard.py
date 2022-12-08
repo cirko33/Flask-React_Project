@@ -24,10 +24,14 @@ class Card(Resource):
                 return jsonify(temp), 200
     
     #Verifikacija
-    def post(self, dataEmail):
+    def post(self, token):
         args = creditCardAddingArgs.parse_args()
         
         try:
+            if token not in activeTokens.keys():
+                return "Please login to continue.", 404
+            dataEmail = activeTokens[token]
+
             card = db.session.execute(db.select(CreditCard).filter_by(userEmail=dataEmail)).one_or_none()
             if not card:
                 return "You don't have any credit card!", 404

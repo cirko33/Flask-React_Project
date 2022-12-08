@@ -1,4 +1,4 @@
-from Configuration.config import reqparse, api, db, jsonify, Resource
+from Configuration.config import reqparse, api, db, jsonify, Resource, activeTokens
 from Models.User import User
 
 userUpdateArgs = reqparse.RequestParser()
@@ -12,10 +12,13 @@ userUpdateArgs.add_argument("password", type=str)
 
 #User profile get and put (change)
 class UserProfile(Resource):
-    def patch(self, user_email):
+    def patch(self, token):
         args = userUpdateArgs.parse_args()
         try:
-            temp = db.session.execute(db.select(User).filter_by(email=user_email)).one_or_none()
+            if token not in activeTokens.keys():
+                return "Please login to continue.", 404
+
+            temp = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()
             if not temp:
                 return "User with this email doesn't exist", 404          
 
