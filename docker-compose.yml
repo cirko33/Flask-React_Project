@@ -8,6 +8,8 @@ services:
     environment: 
       MYSQL_ROOT_PASSWORD: Drs_2022
       MYSQL_DATABASE: drsdb
+    volumes:
+      - ./DB/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
 
   engine:
     build: 
@@ -21,6 +23,10 @@ services:
     volumes:
       - ./:/usr/src/app/
 
+volumes:
+  db:
+    driver: local
+    
 networks:
   default:
     driver: bridge

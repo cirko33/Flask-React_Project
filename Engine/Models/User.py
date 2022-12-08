@@ -4,7 +4,7 @@ import sqlalchemy as sa
 
 class User(db.Model):
     __tablename__ = 'user'
-    email = db.Column(db.String(64), primary_key=True)
+    id = db.Column(db.String(64), primary_key=True) #email
     password = db.Column(db.String(64))
     firstName = db.Column(db.String(32))
     lastName = db.Column(db.String(32))
@@ -19,12 +19,12 @@ class User(db.Model):
         self.address = address
         self.city = city
         self.phoneNumber = phoneNumber
-        self.email = email
+        self.id = email
         self.password = password
         self.verified = verified
 
 class UserSchema(Schema):
-    email = fields.Str()
+    id = fields.Str() #email
     password = fields.Str()
     firstName = fields.Str()
     lastName = fields.Str()
