@@ -1,4 +1,4 @@
-from Models import User
+from Models.User import User
 from Configuration.config import api, db, jsonify, reqparse, Resource
 
 userRegistrationArgs = reqparse.RequestParser()
@@ -15,7 +15,7 @@ class Register(Resource):
     def post(self):
         args = userRegistrationArgs.parse_args()        
         try:
-            temp = User.query.filter_by(email=args['email']).first()
+            temp = db.session.execute(db.select(User).filter_by(email=args["email"])).one_or_none()
             if temp:
                 return "E mail is taken!", 404
         except:

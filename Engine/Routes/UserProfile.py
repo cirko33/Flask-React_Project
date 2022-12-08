@@ -1,5 +1,5 @@
 from Configuration.config import reqparse, api, db, jsonify, Resource
-from Models import User
+from Models.User import User
 
 userUpdateArgs = reqparse.RequestParser()
 userUpdateArgs.add_argument("firstName", type=str)
@@ -15,7 +15,7 @@ class UserProfile(Resource):
     def patch(self, user_email):
         args = userUpdateArgs.parse_args()
         try:
-            temp = User.query.filter_by(email=user_email).first()
+            temp = db.session.execute(db.select(User).filter_by(email=user_email)).one_or_none()
             if not temp:
                 return "User with this email doesn't exist", 404          
 

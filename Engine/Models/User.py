@@ -1,5 +1,6 @@
 from Configuration.config import db
 from marshmallow import Schema, fields
+import sqlalchemy as sa
 
 class User(db.Model):
     __tablename__ = 'user'

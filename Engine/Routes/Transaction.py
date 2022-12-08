@@ -1,8 +1,7 @@
-from Configuration.config import api, jsonify
+from Configuration.config import api, jsonify, db
 from flask_restful import Resource
-from Models import User, Account
+from Models.__init__ import Transaction
 from Configuration.config import reqparse
-import random
 
 transactionMakingArgs = reqparse.RequestParser();
 transactionMakingArgs.add_argument("sender", type=str)
@@ -10,10 +9,10 @@ transactionMakingArgs.add_argument("receiver", type=str, help="Receiver is requi
 transactionMakingArgs.add_argument("amount", type=float, help="Amount can't be 0 and it's required", required = True)
 
 #Transaction get (history) and post (making new transaction)
-class Transaction(Resource):
+class TransactionProfile(Resource):
     def get(self, userEmail):
-        transactionSender = Transaction.query.filter_by(sender = userEmail).all()
-        transactionReceiver = Transaction.query.filter_by(receiver = userEmail).all()
+        transactionSender =  db.session.execute(db.select(Transaction).filter_by(sender=userEmail)).all()
+        transactionReceiver = db.session.execute(db.select(Transaction).filter_by(receiver=userEmail)).all()
         transaction = transactionSender + transactionReceiver
         
         if transaction:
@@ -24,4 +23,4 @@ class Transaction(Resource):
     def post(self, data):
         return "transaction-post", 200
 
-api.add_resource(Transaction, "/transaction")
+api.add_resource(TransactionProfile, "/transaction")

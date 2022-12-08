@@ -1,6 +1,6 @@
 from Configuration.config import *
 from flask_restful import Resource
-from Models import CreditCard, Account, User
+from Models.__init__ import CreditCard, Account, User
 
 creditCardAddingArgs = reqparse.RequestParser()
 creditCardAddingArgs.add_argument("cardNumber", type=int, help="Card Number is required", required=True)
@@ -11,13 +11,13 @@ creditCardAddingArgs.add_argument("cvc", type=int, help="CVC is required", requi
 class Card(Resource):
     def get(self, data):
         if isinstance(data, int):
-            temp = CreditCard.query.filter_by(cardNumber=data).first()
+            temp = db.session.execute(db.select(CreditCard).filter_by(cardNumber=data)).one_or_none()
             if not temp:
                 return "Card with this number doesn't exist", 404
             else:
                 return jsonify(temp), 200
         else:
-            temp = CreditCard.query.filter_by(userEmail=data).first()
+            temp = db.session.execute(db.select(CreditCard).filter_by(userEmail=data)).one_or_none()
             if not temp:
                 return "User with this email does not own any cards", 404
             else:
@@ -28,7 +28,7 @@ class Card(Resource):
         args = creditCardAddingArgs.parse_args()
         
         try:
-            card = CreditCard.query.filter_by(userEmail=dataEmail).first()
+            card = db.session.execute(db.select(CreditCard).filter_by(userEmail=dataEmail)).one_or_none()
             if not card:
                 return "You don't have any credit card!", 404
         except:
@@ -51,14 +51,14 @@ api.add_resource(Card, "/card")
 #Credit card balance get and post (withdraw of money)
 class CardBalance(Resource):
     def get(self, card_number):
-        temp = CreditCard.query.filter_by(cardNumber=card_number).first()
+        temp =  db.session.execute(db.select(CreditCard).filter_by(cardNumber=card_number)).one_or_none()
         if not temp:
             return "Card with this number doesn't exist", 404
         else:
             return temp.amount, 200
     
     def post(self, card_number, value):
-        temp = CreditCard.query.filter_by(cardNumber=card_number).first()
+        temp =  db.session.execute(db.select(CreditCard).filter_by(cardNumber=card_number)).one_or_none()
         if value > temp.amount:
             return "You dont have enought money!", 404
         else:

@@ -1,4 +1,4 @@
-from Models import User
+from Models.User import User
 from Configuration.config import api, db, jsonify, reqparse, Resource, session
 
 userLoginArgs = reqparse.RequestParser()
@@ -12,7 +12,7 @@ class Login(Resource):
         args = userLoginArgs.parse_args()
         
         try:
-            temp = User.query.filter_by(email=args['email'])
+            temp = db.session.execute(db.select(User).filter_by(email=args["email"])).one_or_none()
             if not temp:
                 return "User doesnt exist!", 400
             else:
