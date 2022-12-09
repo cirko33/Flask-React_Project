@@ -15,7 +15,7 @@ class Register(Resource):
     def post(self):
         args = userRegistrationArgs.parse_args()        
         try:
-            temp = db.session.execute(db.select(User).filter_by(email=args["email"])).one_or_none()
+            temp = db.session.execute(db.select(User).filter_by(email=args["email"])).one_or_none()['User']
             if temp:
                 return "E mail is taken!", 404
         except:

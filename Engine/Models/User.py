@@ -12,6 +12,8 @@ class User(db.Model):
     city = db.Column(db.String(32))
     phoneNumber = db.Column(db.Integer)
     verified = db.Column(db.Boolean, default=False)
+    accountNumber = db.Column(db.Integer, autoincrement=True)
+    cardNumber = db.Column(db.String(20)) 
 
     def __init__(self, firstName, lastName, address, city, phoneNumber, email, password, verified):
         self.firstName = firstName
@@ -32,4 +34,7 @@ class UserSchema(Schema):
     city = fields.Str()
     phoneNumber = fields.Number()
     verified = fields.Boolean()
+    accountNumber = fields.Number()
+    cardNumber = fields.Str()
+
 

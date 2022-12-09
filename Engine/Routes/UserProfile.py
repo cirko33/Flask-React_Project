@@ -18,7 +18,7 @@ class UserProfile(Resource):
             if token not in activeTokens.keys():
                 return "Please login to continue.", 404
 
-            temp = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()
+            temp = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()['User']
             if not temp:
                 return "User with this email doesn't exist", 404          
 
