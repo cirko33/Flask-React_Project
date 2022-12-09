@@ -3,9 +3,9 @@ from marshmallow import Schema, fields
 
 class Account(db.Model):
     __tablename__ = 'account'
-    accountNumber = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    accountNumber = db.Column(db.Integer, primary_key=True, autoincrement=True) #prebaciti accNum i cardNum u Usera
     userEmail = db.Column(db.String(64))
-    cardNumber = db.Column(db.Integer)
+    cardNumber = db.Column(db.Integer) #string 
 
     def __init__(self, userEmail, cardNumber):
         self.userEmail = userEmail

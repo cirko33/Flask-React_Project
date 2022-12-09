@@ -5,10 +5,8 @@ from Configuration.config import reqparse
 
 transactionMakingArgs = reqparse.RequestParser();
 transactionMakingArgs.add_argument("sender", type=str)
-transactionMakingArgs.add_argument("receiver", type=str, help="Receiver is required", required = True)
-transactionMakingArgs.add_argument("number", type=int, help="Number (account or bank) is required", required=True)
+transactionMakingArgs.add_argument("receiver", type=str, help="Receiver (User email or account number) is required", required = True)
 transactionMakingArgs.add_argument("amount", type=float, help="Amount can't be 0 and it's required", required = True)
-transactionMakingArgs.add_argument("type", type=int, help="Type of transaction is required", required = True)
 
 #Transaction get (history) and post (making new transaction)
 class TransactionProfile(Resource):
@@ -23,6 +21,7 @@ class TransactionProfile(Resource):
             return "You don't have any transaction.", 400
     
     def post(self, token):
+        #U skladu sa izmenama modela i dogovora implementacije izmeniti kod
         args = transactionMakingArgs.parse_args()
 
         if token not in activeTokens.keys():

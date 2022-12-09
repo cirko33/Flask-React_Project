@@ -4,7 +4,7 @@ from datetime import datetime
 
 class CreditCard(db.Model):
     __tablename__ = 'credit_card'
-    cardNumber = db.Column(db.Integer, primary_key=True)
+    cardNumber = db.Column(db.Integer, primary_key=True) #string 
     userName = db.Column(db.String(32))
     expirationDate = db.Column(db.DateTime, default = datetime.utcnow)
     cvc = db.Column(db.Integer)

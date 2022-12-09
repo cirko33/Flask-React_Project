@@ -12,11 +12,11 @@ class Login(Resource):
         args = userLoginArgs.parse_args()
         
         try:
-            temp = db.session.execute(db.select(User).filter_by(id=args["email"])).one_or_none()
+            temp = db.session.execute(db.select(User).filter_by(id=args["email"])).one_or_none()["User"] #po ovome izvlaciti modele iz baze
             if not temp:
                 return "User doesnt exist!", 400
             else:
-                if(temp["User"].password != args['password']):
+                if(temp.password != args['password']):
                     return "Invalid password", 400
                 else:
                     token = jwt.encode({"email":args['email']}, str(datetime.now().timestamp()), algorithm="HS256").replace('?', '').replace('&','')
