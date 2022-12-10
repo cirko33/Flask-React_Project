@@ -3,32 +3,12 @@ from flask_restful import Resource, reqparse
 from Models.__init__ import User, Balance
 
 #Account
-class AccountNumber(Resource):
-    '''
-    Account profile get (get profile by email) and post (post profile) ?
-    '''
-    def get(self, token):
-        if token not in activeTokens.keys():
-            return "Please login to continue.", 404
-        email = activeTokens[token]
-        temp = db.session.execute(db.select(User).filter_by(userEmail=email)).one_or_none()['User']
-        if not temp:
-            return "User with this email does not own account!", 404
-        else:
-            return temp.accountNumber, 200
-
-api.add_resource(AccountNumber, "/accountNumber")
-
-
-accountBalanceAddingArgs = reqparse.RequestParser()
-accountBalanceAddingArgs.add_argument("number", type=int, help="Number (account or bank) is required", required=True)
-accountBalanceAddingArgs.add_argument("amount", type=float, help="Value is required", required=True)
-accountBalanceAddingArgs.add_argument("currency", type=str, help="Currency is required", required=True)
-accountBalanceAddingArgs.add_argument("type", type=int, help="Type of is required", required=True)
+accountBalanceArgs = reqparse.RequestParser()
+accountBalanceArgs.add_argument("amount", type=float, help="Value is required", required=True)
 
 #Account balance get and post (withdraw of money)
-class AccountBalance(Resource):
-    def get(self, token, currency):
+class Account(Resource):
+    def get(self, token):
         if token not in activeTokens.keys():
             return "Please login to continue.", 404
         email = activeTokens[token]
@@ -41,8 +21,29 @@ class AccountBalance(Resource):
         else:
             return jsonify(balance), 200
     
-    #Type of payment - on online account = 1, on bank account = 2
+    #Deposit from credit card to account
     def post(self, token):
-        return "sad nis", 200
+        if token not in activeTokens.keys():
+            return "Please login to continue.", 404
+        email = activeTokens[token]     
+        
+        account = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()['User']
+        accountStates = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()['Balance']
+        targetBalance = None
 
-api.add_resource(AccountBalance, "/accountBalance")
+        for balance in accountStates:
+            if balance.currency == 'RSD':
+                targetBalance = balance
+
+
+        if targetBalance:
+            targetBalance.amount += accountBalanceArgs['amount']
+            db.session.add(targetBalance)
+        else:
+            newBalance = Balance(accountNumber=account.accountNumber, amount=accountBalanceArgs['amount'], currency='RSD')
+            db.session.add(newBalance)
+            
+        db.session.commit()
+        return 200 
+
+api.add_resource(Account, "/accountBalance")

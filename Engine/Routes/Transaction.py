@@ -1,9 +1,9 @@
 from Configuration.config import api, jsonify, db, activeTokens
 from flask_restful import Resource
-from Models.__init__ import Transaction, Balance, Account
+from Models.__init__ import Transaction, Balance
 from Configuration.config import reqparse
 
-transactionMakingArgs = reqparse.RequestParser();
+transactionMakingArgs = reqparse.RequestParser()
 transactionMakingArgs.add_argument("sender", type=str)
 transactionMakingArgs.add_argument("receiver", type=str, help="Receiver (User email or account number) is required", required = True)
 transactionMakingArgs.add_argument("amount", type=float, help="Amount can't be 0 and it's required", required = True)
@@ -11,8 +11,8 @@ transactionMakingArgs.add_argument("amount", type=float, help="Amount can't be 0
 #Transaction get (history) and post (making new transaction)
 class TransactionProfile(Resource):
     def get(self, userEmail):
-        transactionSender =  db.session.execute(db.select(Transaction).filter_by(sender=userEmail)).all()
-        transactionReceiver = db.session.execute(db.select(Transaction).filter_by(receiver=userEmail)).all()
+        transactionSender =  db.session.execute(db.select(Transaction).filter_by(sender=userEmail)).all()['Transaction']
+        transactionReceiver = db.session.execute(db.select(Transaction).filter_by(receiver=userEmail)).all()['Transaction']
         transaction = transactionSender + transactionReceiver
         
         if transaction:
@@ -57,7 +57,7 @@ class TransactionProfile(Resource):
                         addTransaction(email, args["receiver"], args["amount"], "Denied")
                         return "Account where you sent money does not exist", 404
                     
-                    receiver = accountToSend.userEmail;
+                    receiver = accountToSend.userEmail
                     existingBalance = db.session.execute(db.select(Balance).filter_by(accountNumber=args["number"])).one_or_none()
                     if not existingBalance:
                         newBalance = Balance(accountNumber=args["number"], accountAmount=args["amount"], currency=args["currency"])
