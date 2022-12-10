@@ -35,5 +35,3 @@ class UserSchema(Schema):
     verified = fields.Boolean()
     accountNumber = fields.Number()
     cardNumber = fields.Str()
-
-
