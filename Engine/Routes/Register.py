@@ -1,6 +1,5 @@
-import hashlib
 from Models.User import User
-from Configuration.config import api, db, jsonify, reqparse, Resource
+from Configuration.config import api, db, jsonify, reqparse, Resource, createToken
 
 userRegistrationArgs = reqparse.RequestParser()
 userRegistrationArgs.add_argument("firstName", type=str, help="First name is required", required=True)
@@ -22,7 +21,7 @@ class Register(Resource):
         except:
             return "Server failed", 500
 
-        password = hashlib.sha256((args['password'] + "_qw3efdsfg1").encode("utf8")).hexdigest()
+        password = createToken(args["password"])
         user = User(firstName=args['firstName'], lastName=args['lastName'], 
                     email=args['email'], address=args['address'], city=args['city'], 
                     phoneNumber=args['phoneNumber'], password=password, verified = False)        

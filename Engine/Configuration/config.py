@@ -3,7 +3,7 @@ from flask_restful import Api, reqparse, Resource
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flaskext.mysql import MySQL
-import socket
+import socket, hashlib
 
 app = Flask(__name__)
 
@@ -23,3 +23,7 @@ ma = Marshmallow(app)
 mysql = MySQL(app)
 
 activeTokens = { }
+
+def createToken(text, end="_qw3efdsfg1"):
+    textToHash = text + end
+    return hashlib.sha256(textToHash.encode("utf8")).hexdigest()
