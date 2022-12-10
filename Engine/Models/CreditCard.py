@@ -4,25 +4,25 @@ from datetime import datetime
 
 class CreditCard(db.Model):
     __tablename__ = 'credit_card'
-    cardNumber = db.Column(db.Integer, primary_key=True) #string 
-    userName = db.Column(db.String(32))
-    expirationDate = db.Column(db.DateTime, default = datetime.utcnow)
-    cvc = db.Column(db.Integer)
-    userEmail = db.Column(db.String(64))
-    amount = db.Column(db.Float)
+    cardNumber = db.Column(db.String(16), primary_key=True) #card number
+    userName = db.Column(db.String(32)) #name and surname of card user
+    expirationDate = db.Column(db.DateTime, default = datetime.utcnow) #expiration date
+    cvc = db.Column(db.Integer) #cvc
+    amount = db.Column(db.Float) #amount of money in RSD
+    bankAccountNumber = db.Column(db.String(10)) #bank account number
 
-    def __init__(self, cardNumber, userName, expirationDate, cvc, userEmail, amount):
+    def __init__(self, cardNumber, userName, expirationDate, cvc, amount, bankAccountNumber):
         self.cardNumber = cardNumber
         self.userName = userName
         self.expirationDate = expirationDate
         self.cvc = cvc
-        self.userEmail = userEmail
         self.amount = amount
+        self.bankAccountNumber = bankAccountNumber
 
 class CreditCardSchema(Schema):
     cardNumber = fields.Number()
     userName = fields.Str()
     expirationDate = fields.Str()
     cvc = fields.Number()
-    userEmail = fields.Str()
     amount = fields.Float()
+    bankAccountNumber = fields.Str()

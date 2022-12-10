@@ -12,34 +12,35 @@ userUpdateArgs.add_argument("password", type=str)
 
 #User profile get and put (change)
 class UserProfile(Resource):
+    
     def patch(self, token):
         args = userUpdateArgs.parse_args()
         try:
             if token not in activeTokens.keys():
                 return "Please login to continue.", 404
 
-            temp = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()['User']
-            if not temp:
+            account = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()['User']
+            if not account:
                 return "User with this email doesn't exist", 404          
 
             #if firstName in args && args['firstName'] not None === args['firstName']
             if args['firstName']: 
-                temp.firstName = args['firstName']
+                account.firstName = args['firstName']
             if args['lastName']: 
-                temp.lastName = args['lastName']
+                account.lastName = args['lastName']
             if args['email']: 
-                temp.email = args['email']
+                account.email = args['email']
             if args['address']: 
-                temp.address = args['address']
+                account.address = args['address']
             if args['city']: 
-                temp.city = args['city']
+                account.city = args['city']
             if args['phoneNumber']:
-                temp.phoneNumber = args['phoneNumber']
+                account.phoneNumber = args['phoneNumber']
             if args['password']: 
-                temp.password = args['password']
+                account.password = args['password']
 
             db.session.commit()
-            return jsonify(temp), 200
+            return jsonify(account), 200
         except:
             return "Server failed", 500
 

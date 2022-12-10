@@ -1,7 +1,7 @@
 from Models.User import User
 from Configuration.config import api, db, jsonify, reqparse, Resource, session, activeTokens
 from datetime import datetime
-import jwt
+import hashlib
 
 userLoginArgs = reqparse.RequestParser()
 userLoginArgs.add_argument("email", type=str, help="Email is required", required=True)
@@ -17,10 +17,11 @@ class Login(Resource):
             if not temp:
                 return "User doesnt exist!", 400
             else:
-                if(temp.password != args['password']):
+                password = hashlib.sha256((args['password'] + "_qw3efdsfg1").encode("utf8")).hexdigest()
+                if(temp.password != password):
                     return "Invalid password", 400
                 else:
-                    token = jwt.encode({"email":args['email']}, str(datetime.now().timestamp()), algorithm="HS256").replace('?', '').replace('&','')
+                    token = hashlib.sha256((args['email'] + str(datetime.now().timestamp())).encode("utf8")).hexdigest()
                     activeTokens[token] = args['email']
                     return token, 200
         except Exception as e:

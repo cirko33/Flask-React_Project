@@ -1,5 +1,6 @@
 from Configuration.config import *
 from flask_restful import Resource, reqparse
+from Engine.Models import CreditCard
 from Models.__init__ import User, Balance
 
 #Account
@@ -9,41 +10,56 @@ accountBalanceArgs.add_argument("amount", type=float, help="Value is required", 
 #Account balance get and post (withdraw of money)
 class Account(Resource):
     def get(self, token):
-        if token not in activeTokens.keys():
-            return "Please login to continue.", 404
-        email = activeTokens[token]
-        account = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()['User']
-        if not account:
-            return "Error, no account found", 404
-        balance = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()['Balance']
-        if not balance:
-            return "Account doesn't have any balance", 404
-        else:
-            return jsonify(balance), 200
+        try:
+            if token not in activeTokens.keys():
+                return "Please login to continue.", 404
+            email = activeTokens[token]
+
+            account = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()['User']
+            if not account:
+                return "Error, no account found", 404
+            if not account.verified:
+                return "Please verify first", 404
+
+            balance = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()['Balance']
+            if not balance:
+                return "Account doesn't have any balance", 404
+            else:
+                return jsonify(balance), 200
+        except Exception as e:
+            return "Error: " + str(e), 500
     
     #Deposit from credit card to account
-    def post(self, token):
-        if token not in activeTokens.keys():
-            return "Please login to continue.", 404
-        email = activeTokens[token]     
-        
-        account = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()['User']
-        accountStates = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()['Balance']
-        targetBalance = None
+    def post(self, token): 
+        try:
+            if token not in activeTokens.keys():
+                return "Please login to continue.", 404
+            email = activeTokens[token]
 
-        for balance in accountStates:
-            if balance.currency == 'RSD':
-                targetBalance = balance
+            account = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()['User']
+            if not account:
+                return "Error, no account found", 404
+            if not account.verified:
+                return "Please verify first", 404
 
+            accountStates = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()['Balance']
+            targetBalance = None
 
-        if targetBalance:
-            targetBalance.amount += accountBalanceArgs['amount']
-            db.session.add(targetBalance)
-        else:
-            newBalance = Balance(accountNumber=account.accountNumber, amount=accountBalanceArgs['amount'], currency='RSD')
-            db.session.add(newBalance)
-            
-        db.session.commit()
-        return 200 
+            for balance in accountStates:
+                if balance.currency == 'RSD':
+                    targetBalance = balance
+            amount = accountBalanceArgs["amount"]
+            if targetBalance:
+                card = db.session.execute(db.select(CreditCard).filter_by(cardNumber=account.cardNumber)).one_or_none()["CreditCard"]
+                if card.amount < amount:
+                    return "You don't have enough money on credit card", 404
+                card.amount -= amount
+                targetBalance.amount += amount
+                db.session.commit()
+                return 200
+            else:
+                return "Error", 500 
+        except Exception as e:
+            return "Error: " + str(e), 500
 
 api.add_resource(Account, "/accountBalance")

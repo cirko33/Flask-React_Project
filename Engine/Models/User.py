@@ -4,7 +4,7 @@ import sqlalchemy as sa
 
 class User(db.Model):
     __tablename__ = 'user'
-    email = db.Column(db.String(64), primary_key=True) #id
+    email = db.Column(db.String(64), primary_key=True) 
     password = db.Column(db.String(64))
     firstName = db.Column(db.String(32))
     lastName = db.Column(db.String(32))
@@ -13,7 +13,7 @@ class User(db.Model):
     phoneNumber = db.Column(db.Integer)
     verified = db.Column(db.Boolean, default=False)
     accountNumber = db.Column(db.Integer, autoincrement=True)
-    cardNumber = db.Column(db.String(20)) 
+    cardNumber = db.Column(db.String(20))
 
     def __init__(self, firstName, lastName, address, city, phoneNumber, email, password, verified):
         self.firstName = firstName

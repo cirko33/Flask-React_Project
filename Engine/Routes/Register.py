@@ -1,3 +1,4 @@
+import hashlib
 from Models.User import User
 from Configuration.config import api, db, jsonify, reqparse, Resource
 
@@ -15,15 +16,16 @@ class Register(Resource):
     def post(self):
         args = userRegistrationArgs.parse_args()        
         try:
-            temp = db.session.execute(db.select(User).filter_by(email=args["email"])).one_or_none()['User']
+            temp = db.session.execute(db.select(User).filter_by(email=args["email"])).one_or_none()
             if temp:
-                return "E mail is taken!", 404
+                return "Email is taken!", 404
         except:
             return "Server failed", 500
 
+        password = hashlib.sha256((args['password'] + "_qw3efdsfg1").encode("utf8")).hexdigest()
         user = User(firstName=args['firstName'], lastName=args['lastName'], 
-        email=args['email'], address=args['address'], city=args['city'], 
-        phoneNumber=args['phoneNumber'], password=args['password'], verified = False)        
+                    email=args['email'], address=args['address'], city=args['city'], 
+                    phoneNumber=args['phoneNumber'], password=password, verified = False)        
         db.session.add(user)
         db.session.commit()
         return jsonify(user), 200
