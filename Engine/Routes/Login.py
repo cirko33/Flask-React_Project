@@ -2,6 +2,7 @@ from Models.User import User
 from Configuration.config import api, db, jsonify, reqparse, Resource, session, activeTokens
 from datetime import datetime
 import jwt
+
 userLoginArgs = reqparse.RequestParser()
 userLoginArgs.add_argument("email", type=str, help="Email is required", required=True)
 userLoginArgs.add_argument("password", type=str, help="Password is required", required=True)

@@ -42,6 +42,8 @@ class Card(Resource):
             card.amount -= 111
             user = db.session.execute(db.select(User).filter_by(email=dataEmail)).one_or_none()['User']
             user.verified = True
+            user.cardNumber = args['cardNumber']
+            #user.accountNumber = random...
             db.session.add(card)
             db.session.add(user)
             db.session.commit()
