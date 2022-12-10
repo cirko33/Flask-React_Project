@@ -1,10 +1,9 @@
 from Configuration.config import db
 from marshmallow import Schema, fields
-import sqlalchemy as sa
 
 class User(db.Model):
     __tablename__ = 'user'
-    email = db.Column(db.String(64), primary_key=True) 
+    email = db.Column(db.String(64), unique=True) 
     password = db.Column(db.String(64))
     firstName = db.Column(db.String(32))
     lastName = db.Column(db.String(32))
@@ -12,7 +11,7 @@ class User(db.Model):
     city = db.Column(db.String(32))
     phoneNumber = db.Column(db.Integer)
     verified = db.Column(db.Boolean, default=False)
-    accountNumber = db.Column(db.Integer, autoincrement=True)
+    accountNumber = db.Column(db.Integer, primary_key=True, autoincrement=True)
     cardNumber = db.Column(db.String(20))
 
     def __init__(self, firstName, lastName, address, city, phoneNumber, email, password, verified):

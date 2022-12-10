@@ -23,8 +23,23 @@ services:
     volumes:
       - ./:/usr/src/app/
 
+  ui:
+    image: "node:18.12.1"
+    depends_on:
+      - engine
+    working_dir: /home/node/app
+    links:
+      - engine
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm start"
+    volumes:
+      - ./UI:/home/node/app
+
 volumes:
   db:
+    driver: local
+  ui:
     driver: local
     
 networks:

@@ -1,5 +1,5 @@
 from Models.User import User
-from Configuration.config import api, db, jsonify, reqparse, Resource, session, activeTokens, createToken
+from Configuration.config import api, db, reqparse, Resource, activeTokens, createToken
 from datetime import datetime
 
 userLoginArgs = reqparse.RequestParser()
@@ -12,7 +12,7 @@ class Login(Resource):
         args = userLoginArgs.parse_args()
         
         try:
-            temp = db.session.execute(db.select(User).filter_by(id=args["email"])).one_or_none()["User"] #po ovome izvlaciti modele iz baze
+            temp = db.session.execute(db.select(User).filter_by(email=args["email"])).one_or_none()["User"] #po ovome izvlaciti modele iz baze
             if not temp:
                 return "User doesnt exist!", 400
             else:

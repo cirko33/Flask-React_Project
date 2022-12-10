@@ -12,7 +12,13 @@ userUpdateArgs.add_argument("password", type=str)
 
 #User profile get and put (change)
 class UserProfile(Resource):
-    
+    def get (self, token):
+        if token not in activeTokens.keys():
+            return "Please login to continue.", 404
+
+        user = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()['User']
+        return jsonify(user), 200
+        
     def patch(self, token):
         args = userUpdateArgs.parse_args()
         try:
