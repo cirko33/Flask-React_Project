@@ -4,7 +4,7 @@ import Button from '../common/Button.js';
 
 const Header = (props) => {
     let text = "Image cannot be found!";
-
+    
     return(
         <React.Fragment>
             <header className={style.header}>
