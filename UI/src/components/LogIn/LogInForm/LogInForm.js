@@ -30,6 +30,8 @@ const LogInForm = (props) => {
             const logInData = { email: enteredEmail, password: enteredPassword};
             props.onLogInCredentials(logInData);
         }
+        else
+          return;
     }
 
     const emailControlClasses = `${styles.control} ${isEmailValid ? "" : styles.invalid}`;
@@ -48,6 +50,7 @@ const LogInForm = (props) => {
             </div>
             <div className={passwordControlClasses}>
               <Input
+                type={'password'}
                 ref={passwordInputRef}
                 label={"Password"}
                 input={{ id: "password" }}

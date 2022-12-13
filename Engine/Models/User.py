@@ -22,7 +22,7 @@ class User(db.Model):
         self.phoneNumber = phoneNumber
         self.email = email
         self.password = password
-        self.verified = verified
+        self.verified = verified #kad se kreira novi automatski staviti na false??
 
 class UserSchema(Schema):
     email = fields.Str() #id

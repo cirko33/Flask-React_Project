@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Header from './components/Header/Header.js'
 import LogIn from './components/LogIn/LogIn.js';
+import Register from './components/Register/Register.js';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);    
     
-    const logInHanlder = () =>{
+    const logInHandler = () =>{
         setIsLoggedIn(true);
     }
 
@@ -17,10 +18,15 @@ function App() {
         console.log(logInData);
     }
 
+    const saveRegister = (registerData) => {
+        console.log(registerData);
+    }
+
     return (
         <React.Fragment>
-            <Header onLogInClick = {logInHanlder} onHomeClick={homeHandler}></Header>
+            <Header onLogInClick = {logInHandler} onHomeClick={homeHandler}></Header>
             {isLoggedIn && <LogIn onSaveLogIn={saveLogIn}/>}
+            {!isLoggedIn && <Register onSaveRegister={saveRegister}/>}
         </React.Fragment>
     );
 }
