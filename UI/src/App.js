@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Header from './components/Header/Header.js'
+import Header from './components/header/Header.js'
 import LogIn from './components/LogIn/LogIn.js';
 import Register from './components/Register/Register.js';
 
@@ -14,12 +14,52 @@ function App() {
         alert("HOME PAGE");
     }
 
-    const saveLogIn = (logInData) => {
-        console.log(logInData);
+    const saveLogIn = async(logInData) => {
+        try {
+            const response = await fetch(
+                "http://localhost:5000/login",
+                {
+                    method: "POST",
+                    body: JSON.stringify(logInData),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+
+            const data = response.json();
+            console.log(data);
+        } catch (error){
+            alert(error.message);
+        }
     }
 
-    const saveRegister = (registerData) => {
-        console.log(registerData);
+    const saveRegister = async(registerData) => {
+         try {
+            const response = await fetch(
+                "http://localhost:5000/register",
+                {
+                    method: "POST",
+                    body: JSON.stringify(registerData),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+
+            const data = response.json();
+            console.log(data);
+        } catch (error){
+            alert(error.message);
+        }
     }
 
     return (

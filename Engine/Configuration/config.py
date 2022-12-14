@@ -3,6 +3,7 @@ from flask_restful import Api, reqparse, Resource
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flaskext.mysql import MySQL
+from flask_cors import CORS
 import socket, hashlib
 
 app = Flask(__name__)
@@ -21,6 +22,7 @@ api = Api(app)
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 mysql = MySQL(app)
+CORS(app)
 
 activeTokens = { }
 
