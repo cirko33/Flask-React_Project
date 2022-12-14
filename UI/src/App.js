@@ -7,7 +7,7 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);    
     
     const logInHandler = () =>{
-        setIsLoggedIn(true);
+        setIsLoggedIn(!isLoggedIn);
     }
 
     const homeHandler = () =>{
@@ -24,7 +24,7 @@ function App() {
 
     return (
         <React.Fragment>
-            <Header onLogInClick = {logInHandler} onHomeClick={homeHandler}></Header>
+            <Header onLogInClick = {logInHandler} onHomeClick={homeHandler} isLoggedIn={isLoggedIn}></Header>
             {isLoggedIn && <LogIn onSaveLogIn={saveLogIn}/>}
             {!isLoggedIn && <Register onSaveRegister={saveRegister}/>}
         </React.Fragment>
