@@ -1,5 +1,5 @@
 from Models.User import User
-from Configuration.config import api, db, reqparse, Resource, activeTokens, createToken, jsonify
+from Configuration.config import api, db, reqparse, Resource, activeTokens, createToken, jsonify, make_response
 from datetime import datetime
 
 userLoginArgs = reqparse.RequestParser()
@@ -25,7 +25,7 @@ class Login(Resource):
                     result = {
                         "token": token
                     }
-                    return result, 200
+                    return make_response(jsonify(result), 200)
         except Exception as e:
             return f"Server failed {str(e)}", 500
 

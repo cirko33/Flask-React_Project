@@ -1,5 +1,5 @@
-from Configuration.config import reqparse, api, db, jsonify, Resource, activeTokens
-from Models.User import User
+from Configuration.config import reqparse, api, db, jsonify, Resource, activeTokens, make_response
+from Models.User import User, UserSchema
 
 userUpdateArgs = reqparse.RequestParser()
 userUpdateArgs.add_argument("firstName", type=str)
@@ -14,10 +14,12 @@ userUpdateArgs.add_argument("password", type=str)
 class UserProfile(Resource):
     def get (self, token):
         if token not in activeTokens.keys():
-            return "Please login to continue.", 404
+            return make_response("Please login to continue.", 404)
 
         user = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()['User']
-        return jsonify(user), 200
+        user_schema = UserSchema()
+        result = user_schema.dump(user)
+        return make_response(jsonify(result), 200)
         
     def patch(self, token):
         args = userUpdateArgs.parse_args()
@@ -50,4 +52,4 @@ class UserProfile(Resource):
         except:
             return "Server failed", 500
 
-api.add_resource(UserProfile, "/userProfile")
+api.add_resource(UserProfile, "/userProfile/<string:token>")

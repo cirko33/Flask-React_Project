@@ -1,5 +1,5 @@
 from Models.User import User
-from Configuration.config import api, db, jsonify, reqparse, Resource, createToken
+from Configuration.config import api, db, jsonify, reqparse, Resource, createToken, make_response
 
 userRegistrationArgs = reqparse.RequestParser()
 userRegistrationArgs.add_argument("firstName", type=str, help="First name is required", required=True)
@@ -27,6 +27,6 @@ class Register(Resource):
                     phoneNumber=args['phoneNumber'], password=password, verified = False)        
         db.session.add(user)
         db.session.commit()
-        return jsonify(user), 200
+        return make_response("New user has been created!", 200)
 
 api.add_resource(Register, "/register")
