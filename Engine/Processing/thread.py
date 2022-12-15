@@ -31,7 +31,8 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress, mutex):
             return
 
         balanceFound = False
-        for balance in accountStates:
+        for b in accountStates:
+            balace = b['Balance']
             if balance.currency != currency:
                 continue
 
