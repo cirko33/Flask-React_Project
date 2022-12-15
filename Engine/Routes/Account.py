@@ -10,6 +10,7 @@ accountBalanceArgs.add_argument("amount", type=float, help="Value is required", 
 #Account balance get and post (withdraw of money)
 class Account(Resource):
     def get(self, token):
+        """ Get balance for a given user (token) """
         try:
             if token not in activeTokens.keys():
                 return "Please login to continue.", 404
@@ -29,8 +30,8 @@ class Account(Resource):
         except Exception as e:
             return "Error: " + str(e), 500
     
-    #Deposit from credit card to account
     def post(self, token): 
+        """ Deposit from credit card to account"""
         try:
             if token not in activeTokens.keys():
                 return "Please login to continue.", 404
@@ -62,4 +63,4 @@ class Account(Resource):
         except Exception as e:
             return "Error: " + str(e), 500
 
-api.add_resource(Account, "/accountBalance")
+api.add_resource(Account, "/accountBalance/<string:token>")

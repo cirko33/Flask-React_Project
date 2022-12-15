@@ -26,6 +26,6 @@ CORS(app)
 
 activeTokens = { }
 
-def createToken(text, end="_qw3efdsfg1"):
+def createHash(text, end="_qw3efdsfg1"):
     textToHash = text + end
     return hashlib.sha256(textToHash.encode("utf8")).hexdigest()

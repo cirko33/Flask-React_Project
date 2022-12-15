@@ -2,19 +2,22 @@ from Configuration.config import *
 from flask_restful import Resource
 from Models.__init__ import CreditCard, User
 
-creditCardAddingArgs = reqparse.RequestParser()
-creditCardAddingArgs.add_argument("cardNumber", type=str, help="Card Number is required", required=True)
-creditCardAddingArgs.add_argument("expirationDate", type=str, help="Date is required", required=True)
-creditCardAddingArgs.add_argument("cvc", type=int, help="CVC is required", required=True)
-creditCardAddingArgs.add_argument("userName", type=str, help="Name and surname are required", required=True)
+cardArgs = reqparse.RequestParser()
+cardArgs.add_argument("cardNumber", type=str, help="Card Number is required", required=True)
+cardArgs.add_argument("expirationDate", type=str, help="Date is required", required=True)
+cardArgs.add_argument("cvc", type=int, help="CVC is required", required=True)
+cardArgs.add_argument("userName", type=str, help="Name and surname are required", required=True)
+cardArgs.add_argument("USDInRSD", type=int, required=True)
 
 #Credit card post (adding credit card)
 class Card(Resource):
     #Verification
-    def post(self, token, USDInRSD):
-        args = creditCardAddingArgs.parse_args()
-        cardNumber, expirationDate, cvc, userName = args['cardNumber'], args['ExpirationDate'], args['cvc'], args['userName']
-        card = None
+    def post(self, token):
+        """ Verification of the card for a given user (token) """
+        args = cardArgs.parse_args()
+        cardNumber, expirationDate, cvc, userName, USDInRSD = \
+            args['cardNumber'], args['ExpirationDate'], args['cvc'], args['userName'], args['USDinRSD'],
+
         try:
             if token not in activeTokens.keys():
                 return "Please login to continue.", 404
@@ -27,7 +30,9 @@ class Card(Resource):
             card = db.session.execute(db.select(CreditCard).filter_by(cardNumber=cardNumber, expirationDate=expirationDate, cvc=cvc, userName=userName))['CreditCard']
             if not card:
                 return "Card does not exist", 404
-            
+            if card.amount < USDInRSD:
+                return "You don't have enough money on your card", 404
+
             card.amount -= USDInRSD
             account.verified = True
             account.cardNumber = cardNumber
@@ -36,4 +41,4 @@ class Card(Resource):
         except Exception as e:
             return "Server failed: " + str(e), 500
 
-api.add_resource(Card, "/card")
+api.add_resource(Card, "/card/<string:token>")

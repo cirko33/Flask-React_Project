@@ -13,15 +13,21 @@ userUpdateArgs.add_argument("password", type=str)
 #User profile get and put (change)
 class UserProfile(Resource):
     def get (self, token):
-        if token not in activeTokens.keys():
-            return make_response("Please login to continue.", 404)
+        """ Get the user info for a given user (token) """
+        try:
+            if token not in activeTokens.keys():
+                return make_response("Please login to continue.", 404)
 
-        user = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()['User']
-        user_schema = UserSchema()
-        result = user_schema.dump(user)
-        return make_response(jsonify(result), 200)
+            user = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()['User']
+            user_schema = UserSchema()
+            result = user_schema.dump(user)
+            result.pop('password')
+            return make_response(jsonify(result), 200)
+        except Exception as e:
+            return "Error: " + str(e), 500
         
     def patch(self, token):
+        """ Change the user info for a given user (token) """
         args = userUpdateArgs.parse_args()
         try:
             if token not in activeTokens.keys():
@@ -50,6 +56,7 @@ class UserProfile(Resource):
             db.session.commit()
             user_schema = UserSchema()
             result = user_schema.dump(account)
+            activeTokens[token] = account.email
             return make_response(jsonify(result), 200)
         except Exception as e:
             return f"Server failed: {e}", 500

@@ -1,5 +1,5 @@
 from Models.User import User
-from Configuration.config import api, db, jsonify, reqparse, Resource, createToken, make_response
+from Configuration.config import api, db, jsonify, reqparse, Resource, createHash, make_response
 
 userRegistrationArgs = reqparse.RequestParser()
 userRegistrationArgs.add_argument("firstName", type=str, help="First name is required", required=True)
@@ -21,7 +21,7 @@ class Register(Resource):
         except:
             return "Server failed", 500
 
-        password = createToken(args["password"])
+        password = createHash(args["password"])
         user = User(firstName=args['firstName'], lastName=args['lastName'], 
                     email=args['email'], address=args['address'], city=args['city'], 
                     phoneNumber=args['phoneNumber'], password=password, verified = False)        
