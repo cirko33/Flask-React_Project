@@ -19,10 +19,12 @@ class TransactionProfile(Resource):
                 return "Please login to continue.", 404
             email = activeTokens[token]
 
-            transactionSender = db.session.execute(db.select(Transaction).filter_by(sender=email)).all()['Transaction']
-            transactionReceiver = db.session.execute(db.select(Transaction).filter_by(receiver=email)).all()['Transaction']
+            transactionSender = db.session.execute(db.select(Transaction).filter_by(sender=email)).all()
+            transactionReceiver = db.session.execute(db.select(Transaction).filter_by(receiver=email)).all()
             
             transaction = transactionSender + transactionReceiver
+            if len(transaction) == 0:
+                return "There is no transaction", 200
             result = TransactionSchema(many=True).dumps(transaction)
             return make_response(jsonify(result), 200)            
         except Exception as e:

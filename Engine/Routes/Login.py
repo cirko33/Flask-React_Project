@@ -13,6 +13,9 @@ class Login(Resource):
     def post(self):
         args = userLoginArgs.parse_args()
         try:
+            if args["email"] in activeTokens.values():
+                return "User already logged in", 400
+                
             temp = db.session.execute(db.select(User).filter_by(email=args["email"])).one_or_none()["User"] #po ovome izvlaciti modele iz baze
             if not temp:
                 return "User doesnt exist!", 400

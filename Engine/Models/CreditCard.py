@@ -6,7 +6,7 @@ class CreditCard(db.Model):
     __tablename__ = 'credit_card'
     cardNumber = db.Column(db.String(16), primary_key=True) #card number
     userName = db.Column(db.String(32)) #name and surname of card user
-    expirationDate = db.Column(db.DateTime, default = datetime.utcnow) #expiration date
+    expirationDate = db.Column(db.String(5)) #expiration date
     cvc = db.Column(db.Integer) #cvc
     amount = db.Column(db.Float) #amount of money in RSD
     bankAccountNumber = db.Column(db.String(10)) #bank account number

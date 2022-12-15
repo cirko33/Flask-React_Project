@@ -1,1 +1,1 @@
-from Routes import UserProfile, Currency, Transaction, Account, Login, Register
+from Routes import UserProfile, Transaction, Account, Login, Register, Logout, CreditCard

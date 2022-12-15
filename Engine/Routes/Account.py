@@ -22,7 +22,7 @@ class Account(Resource):
             if not account.verified:
                 return "Please verify first", 404
 
-            balance = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()['Balance']
+            balance = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
             if not balance:
                 return "Account doesn't have any balance", 404
             else:
@@ -43,12 +43,12 @@ class Account(Resource):
             if not account.verified:
                 return "Please verify first", 404
 
-            accountStates = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()['Balance']
+            accountStates = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
             targetBalance = None
 
             for balance in accountStates:
-                if balance.currency == 'RSD':
-                    targetBalance = balance
+                if balance["Balance"].currency == 'RSD':
+                    targetBalance = balance["Balance"]
             amount = accountBalanceArgs["amount"]
             if targetBalance:
                 card = db.session.execute(db.select(CreditCard).filter_by(cardNumber=account.cardNumber)).one_or_none()["CreditCard"]
