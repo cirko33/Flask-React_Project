@@ -1,7 +1,7 @@
 from Configuration.config import *
 from flask_restful import Resource, reqparse
 from Engine.Models import CreditCard
-from Models.__init__ import User, Balance
+from Models.__init__ import User, Balance, BalanceSchema
 
 #Account
 accountBalanceArgs = reqparse.RequestParser()
@@ -22,16 +22,22 @@ class Account(Resource):
             if not account.verified:
                 return "Please verify first", 404
 
-            balance = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
-            if not balance:
+            balances = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
+            if not balances:
                 return "Account doesn't have any balance", 404
             else:
-                return jsonify(balance), 200
+                list = []
+                for balance in balances:
+                    balance_schema = BalanceSchema()
+                    result = balance_schema.dump(balance["Balance"])
+                    list.append(result)                    
+                return make_response(jsonify(list), 200)
         except Exception as e:
             return "Error: " + str(e), 500
     
     def post(self, token): 
         """ Deposit from credit card to account"""
+        args = accountBalanceArgs.parse_args()
         try:
             if token not in activeTokens.keys():
                 return "Please login to continue.", 404
@@ -44,12 +50,13 @@ class Account(Resource):
                 return "Please verify first", 404
 
             accountStates = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
-            targetBalance = None
+            targetBalance = None            
 
-            for balance in accountStates:
-                if balance["Balance"].currency == 'RSD':
-                    targetBalance = balance["Balance"]
-            amount = accountBalanceArgs["amount"]
+            for balance in accountStates:  
+                if balance["Balance"].currency == 'RSD':                    
+                    targetBalance = balance["Balance"]            
+            
+            amount = args['amount']            
             if targetBalance:
                 card = db.session.execute(db.select(CreditCard).filter_by(cardNumber=account.cardNumber)).one_or_none()["CreditCard"]
                 if card.amount < amount:
