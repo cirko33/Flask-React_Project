@@ -48,8 +48,10 @@ class UserProfile(Resource):
                 account.password = args['password']
 
             db.session.commit()
-            return jsonify(account), 200
-        except:
-            return "Server failed", 500
+            user_schema = UserSchema()
+            result = user_schema.dump(account)
+            return make_response(jsonify(result), 200)
+        except Exception as e:
+            return f"Server failed: {e}", 500
 
 api.add_resource(UserProfile, "/userProfile/<string:token>")

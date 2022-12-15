@@ -1,4 +1,4 @@
-from Models.User import User
-from Models.CreditCard import CreditCard
-from Models.Transaction import Transaction
-from Models.Balance import Balance
+from Models.User import User, UserSchema
+from Models.CreditCard import CreditCard, CreditCardSchema
+from Models.Transaction import Transaction, TransactionSchema
+from Models.Balance import Balance, BalanceSchema
