@@ -1,4 +1,4 @@
-from Configuration.config import reqparse, api, db, jsonify, Resource, activeTokens, make_response
+from Configuration.config import reqparse, api, db, jsonify, Resource, activeTokens
 from Models.User import User, UserSchema
 
 userUpdateArgs = reqparse.RequestParser()
@@ -16,13 +16,13 @@ class UserProfile(Resource):
         """ Get the user info for a given user (token) """
         try:
             if token not in activeTokens.keys():
-                return make_response("Please login to continue.", 404)
+                return "Please login to continue.", 404
 
             user = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()['User']
             user_schema = UserSchema()
             result = user_schema.dump(user)
             result.pop('password')
-            return make_response(jsonify(result), 200)
+            return jsonify(result), 200
         except Exception as e:
             return "Error: " + str(e), 500
         
@@ -57,8 +57,8 @@ class UserProfile(Resource):
             user_schema = UserSchema()
             result = user_schema.dump(account)
             activeTokens[token] = account.email
-            return make_response(jsonify(result), 200)
+            return jsonify(result), 200
         except Exception as e:
-            return f"Server failed: {e}", 500
+            return "Error: " + str(e), 500
 
 api.add_resource(UserProfile, "/userProfile/<string:token>")

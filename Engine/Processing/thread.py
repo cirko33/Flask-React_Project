@@ -1,5 +1,5 @@
 from time import sleep
-from Configuration.config import db
+from Configuration.config import db, sendingSocket
 from Models.__init__ import Transaction, User, Balance
 
 def threadWorker(email, receiver, amount, currency, type, ipAddress, mutex):
@@ -8,12 +8,13 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress, mutex):
         transaction = Transaction(sender, receiver, amount, currency, state)
         db.session.add(transaction)
         db.session.commit()
-        mutex.acquire()
+        sendingSocket.sendto(b"Update", (ipAddress, 5001))
         return transaction
 
     def changeTransactionState(transaction, state):
         transaction.state = state
         db.session.commit()
+        sendingSocket.sendto(b"Update", (ipAddress, 5001))
         mutex.release()
 
     try:
@@ -25,14 +26,14 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress, mutex):
             changeTransactionState(transaction, "Denied")
             return
 
-        accountStates = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
+        mutex.acquire()
+        accountStates = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).scalars().all()
         if not accountStates:
             changeTransactionState(transaction, "Denied")
             return
 
         balanceFound = False
-        for b in accountStates:
-            balance = b['Balance']
+        for balance in accountStates:
             if balance.currency != currency:
                 continue
 

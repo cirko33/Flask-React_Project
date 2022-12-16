@@ -1,5 +1,5 @@
 from Models.User import User
-from Configuration.config import api, db, reqparse, Resource, activeTokens, createHash, jsonify, make_response
+from Configuration.config import api, db, reqparse, Resource, activeTokens, createHash, jsonify
 from datetime import datetime
 from flask import request
 from Processing.__init__ import openProcess
@@ -28,8 +28,8 @@ class Login(Resource):
             activeTokens[token] = args['email']
             
             openProcess(token, request.remote_addr)
-            return make_response(jsonify({"token": token}), 200)
+            return jsonify({"token": token}), 200
         except Exception as e:
-            return f"Server failed {str(e)}", 500
+            return "Error:" + str(e), 500
 
 api.add_resource(Login, "/login")

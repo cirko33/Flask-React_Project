@@ -7,8 +7,8 @@ class Logout(Resource):
         try:
             closeProcess(token)
             activeTokens.pop(token)
-            return 200
+            return "OK", 200
         except Exception as e:
-            return f"Error: {str(e)}", 500
+            return "Error: " + str(e), 500
 
 api.add_resource(Logout, "/logout/<string:token>")

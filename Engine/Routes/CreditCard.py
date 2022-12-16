@@ -38,8 +38,8 @@ class Card(Resource):
             account.cardNumber = cardNumber
             db.session.add(Balance(account.accountNumber, 0, "RSD"))
             db.session.commit()
-            return 200
+            return "OK", 200
         except Exception as e:
-            return "Server failed: " + str(e), 500
+            return "Error: " + str(e), 500
 
 api.add_resource(Card, "/card/<string:token>")

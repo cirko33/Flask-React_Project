@@ -1,5 +1,5 @@
 from Models.User import User
-from Configuration.config import api, db, jsonify, reqparse, Resource, createHash, make_response
+from Configuration.config import api, db, jsonify, reqparse, Resource, createHash
 
 userRegistrationArgs = reqparse.RequestParser()
 userRegistrationArgs.add_argument("firstName", type=str, help="First name is required", required=True)
@@ -18,8 +18,8 @@ class Register(Resource):
             temp = db.session.execute(db.select(User).filter_by(email=args["email"])).one_or_none()
             if temp:
                 return "Email is taken!", 404
-        except:
-            return "Server failed", 500
+        except Exception as e:
+            return "Error: " + str(e), 500
 
         password = createHash(args["password"])
         user = User(firstName=args['firstName'], lastName=args['lastName'], 
@@ -27,6 +27,6 @@ class Register(Resource):
                     phoneNumber=args['phoneNumber'], password=password, verified = False)        
         db.session.add(user)
         db.session.commit()
-        return make_response("New user has been created!", 200)
+        return "New user has been created!", 200
 
 api.add_resource(Register, "/register")

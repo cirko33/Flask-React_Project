@@ -1,4 +1,4 @@
-from flask import Flask, session, jsonify, make_response
+from flask import Flask, session, jsonify
 from flask_restful import Api, reqparse, Resource
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
@@ -24,7 +24,9 @@ ma = Marshmallow(app)
 mysql = MySQL(app)
 CORS(app)
 
-activeTokens = { }
+activeTokens = { } #Has tokens as keys and email addresses as values
+
+sendingSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 def createHash(text, end="_qw3efdsfg1"):
     textToHash = text + end

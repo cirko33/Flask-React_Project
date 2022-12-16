@@ -1,4 +1,4 @@
-from Configuration.config import api, jsonify, db, activeTokens, make_response
+from Configuration.config import api, jsonify, db, activeTokens
 from flask_restful import Resource
 from Models.__init__ import Transaction, TransactionSchema
 from Configuration.config import reqparse
@@ -31,11 +31,12 @@ class TransactionProfile(Resource):
                 transaction_schema = TransactionSchema()
                 result = transaction_schema.dump(transaction["Transaction"])
                 list.append(result)                
-            return make_response(jsonify(list), 200)          
+            return jsonify(list), 200        
         except Exception as e:
             return 'Error: ' + str(e), 500
             
     def post(self, token):
+        """ Send transaction request """
         args = transactionArgs.parse_args()
 
         try:
@@ -44,6 +45,7 @@ class TransactionProfile(Resource):
             email = activeTokens[token]
 
             addTransaction(token, (email, args['receiver'], args['amount'], args['currency'], args['type']))
+            return "OK", 200
         except Exception as e:
             return 'Error: ' + str(e), 500
 api.add_resource(TransactionProfile, "/transaction/<string:token>")

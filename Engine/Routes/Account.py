@@ -25,13 +25,13 @@ class Account(Resource):
             balances = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
             if not balances:
                 return "Account doesn't have any balance", 404
-            else:
-                list = []
-                for balance in balances:
-                    balance_schema = BalanceSchema()
-                    result = balance_schema.dump(balance["Balance"])
-                    list.append(result)                    
-                return make_response(jsonify(list), 200)
+
+            list = []
+            balance_schema = BalanceSchema()
+            for balance in balances:
+                result = balance_schema.dump(balance["Balance"])
+                list.append(result)                    
+            return jsonify(list), 200
         except Exception as e:
             return "Error: " + str(e), 500
     
@@ -64,7 +64,7 @@ class Account(Resource):
                 card.amount -= amount
                 targetBalance.amount += amount
                 db.session.commit()
-                return 200
+                return "OK", 200
             else:
                 return "Error", 500 
         except Exception as e:
