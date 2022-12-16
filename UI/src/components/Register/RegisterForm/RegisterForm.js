@@ -2,10 +2,9 @@ import React, {useState, useRef} from "react";
 import Button from "../../common/Button.js";
 import Input from "../../common/Input.js";
 import styles from '../../Register/RegisterForm/RegisterForm.module.css';
-
 const isEmpty = (value) => value.trim().length === 0;
 
-const RegisterForm = (props) => {
+const RegisterForm = () => {
     const [formInputValidity, setFormInputsValidity] = useState({
         firstName: false,
         lastName: false,
@@ -23,6 +22,29 @@ const RegisterForm = (props) => {
       const phoneNumberInputRef = useRef();
       const emailInputRef = useRef();
       const passwordInputRef = useRef();
+
+      const saveRegister = async(registerData) => {
+        try {
+           const response = await fetch(
+               "http://localhost:5000/register",
+               {
+                   method: "POST",
+                   body: JSON.stringify(registerData),
+                   headers: {
+                       "Content-Type": "application/json"
+                   }
+               }
+           );
+
+           if (!response.ok) {
+               throw new Error(response.statusText);
+           }
+           else
+            return;
+       } catch (error){
+           alert(error.message);
+       }
+   }
 
       const submitHandler = (event) => {
         event.preventDefault();
@@ -62,9 +84,8 @@ const RegisterForm = (props) => {
         
         const registerData = { firstName: enteredFirstName, lastName: enteredLastName,
               address: enteredAddress, city: enteredCity, phoneNumber: enteredPhoneNumber,
-               email: enteredEmail, password: enteredPassword};
-        props.onRegisterCredentials(registerData);
-
+              email: enteredEmail, password: enteredPassword};
+        saveRegister(registerData);
         }
 
         const firstNameControlClasses = `${styles.control} ${formInputValidity.firstName ? "" : styles.invalid}`;

@@ -1,13 +1,15 @@
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useContext } from "react";
 import Input from "../../common/Input.js";
 import styles from './LogInForm.module.css';
 import Button from '../../common/Button.js';
+import AuthContext from "../../../store/auth-context.js";
 const isEmpty = (value) => value.trim().length === 0;
 
-const LogInForm = (props) => {
+const LogInForm = () => {
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [isPasswordValid, setIsPasswordValid] = useState(false);
 
+    const authCtx = useContext(AuthContext);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
 
@@ -28,7 +30,7 @@ const LogInForm = (props) => {
 
         if(isEmailValid && isPasswordValid) {
             const logInData = { email: enteredEmail, password: enteredPassword};
-            props.onLogInCredentials(logInData);
+            authCtx.onLogin(logInData);
         }
         else
           return;
