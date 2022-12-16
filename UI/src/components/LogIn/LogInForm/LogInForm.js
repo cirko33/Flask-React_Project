@@ -15,22 +15,24 @@ const LogInForm = () => {
 
     const submitHandler = (event) => {
         event.preventDefault();
+        let isEmailValidBool = false;
+        let isPasswordValidBool = false;
+        setIsEmailValid(false);
+        setIsPasswordValid(false);
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
 
-        if(isEmpty(enteredEmail))
-            setIsEmailValid(false);
-        else
+        if(!isEmpty(enteredEmail))
+            isEmailValidBool = true;
             setIsEmailValid(true);
-        
-        if(isEmpty(enteredPassword))
-            setIsPasswordValid(false);
-        else
-            setIsPasswordValid(true);           
+        if(!isEmpty(enteredPassword))
+            isPasswordValidBool = true;    
+            setIsPasswordValid(true);      
 
-        if(isEmailValid && isPasswordValid) {
+        if(isEmailValidBool && isPasswordValidBool) {
             const logInData = { email: enteredEmail, password: enteredPassword};
             authCtx.onLogin(logInData);
+            console.log(sessionStorage.getItem('user'));
         }
         else
           return;

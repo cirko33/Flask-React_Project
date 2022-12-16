@@ -20,18 +20,18 @@ class Card(Resource):
 
         try:
             if token not in activeTokens.keys():
-                return "Please login to continue.", 404
+                return "Please login to continue.", 400
             email = activeTokens[token]
 
             account = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()['User']
             if account.cardNumber is not None:
-                return "You already have a credit card", 404
+                return "You already have a credit card", 400
                 
             card = db.session.execute(db.select(CreditCard).filter_by(cardNumber=cardNumber, expirationDate=expirationDate, cvc=cvc, userName=userName)).one_or_none()['CreditCard']
             if not card:
                 return "Card does not exist", 404
             if card.amount < USDInRSD:
-                return "You don't have enough money on your card", 404
+                return "You don't have enough money on your card", 400
 
             card.amount -= USDInRSD
             account.verified = True

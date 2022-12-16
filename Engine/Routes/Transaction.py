@@ -16,7 +16,7 @@ class TransactionProfile(Resource):
         """ Get all transaction for a given user (token) """        
         try:
             if token not in activeTokens.keys():
-                return "Please login to continue.", 404
+                return "Please login to continue.", 400
             email = activeTokens[token]
 
             transactionSender = db.session.execute(db.select(Transaction).filter_by(sender=email)).all()
@@ -41,7 +41,7 @@ class TransactionProfile(Resource):
 
         try:
             if token not in activeTokens.keys():
-                return "Please login to continue.", 404
+                return "Please login to continue.", 400
             email = activeTokens[token]
 
             addTransaction(token, (email, args['receiver'], args['amount'], args['currency'], args['type']))

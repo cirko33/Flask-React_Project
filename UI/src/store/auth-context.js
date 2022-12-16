@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const AuthContext = React.createContext({
     isLoggedIn: false,
     user: null,
-    onLogout: (token) => {},
+    onLogout: () => {},
     onLogin: (logInData) => {}
 });
 
@@ -38,7 +38,8 @@ export const AuthContextProvider = (props) => {
                 throw new Error(response.statusText);
             }
 
-            const data = response.json();
+            const data = await response.json();
+            console.log(data.token);
             setUser(data.token);
             setIsLoggedIn(true);
             sessionStorage.setItem('isLoggedIn', '1');
@@ -80,7 +81,7 @@ export const AuthContextProvider = (props) => {
             isLoggedIn: isLoggedIn,
             user: user,
             onLogout: logOutHandler,
-            onLogIn: logInHandler
+            onLogin: logInHandler
         }}>
             {props.children}       
         </AuthContext.Provider>

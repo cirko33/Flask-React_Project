@@ -16,7 +16,7 @@ class UserProfile(Resource):
         """ Get the user info for a given user (token) """
         try:
             if token not in activeTokens.keys():
-                return "Please login to continue.", 404
+                return "Please login to continue.", 400
 
             user = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()['User']
             user_schema = UserSchema()
@@ -31,7 +31,7 @@ class UserProfile(Resource):
         args = userUpdateArgs.parse_args()
         try:
             if token not in activeTokens.keys():
-                return "Please login to continue.", 404
+                return "Please login to continue.", 400
 
             account = db.session.execute(db.select(User).filter_by(email=activeTokens[token])).one_or_none()['User']
             if not account:

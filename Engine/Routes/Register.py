@@ -17,7 +17,7 @@ class Register(Resource):
         try:
             temp = db.session.execute(db.select(User).filter_by(email=args["email"])).one_or_none()
             if temp:
-                return "Email is taken!", 404
+                return "Email is taken!", 400
         except Exception as e:
             return "Error: " + str(e), 500
 

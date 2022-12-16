@@ -12,12 +12,15 @@ class Exchange(Resource):
         try:
             args = excArgs.parse_args()
             if token not in activeTokens.keys():
-                return "Please login to continue", 404
+                return "Please login to continue", 400
             email = activeTokens[token]
 
             account = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()["User"]
             if not account:
                 return "User doesnt exist!", 400
+
+            if args["newValue"] <= 0 or args["oldValue"] <= 0:
+                return "Values must be greater 0", 400
 
             balances = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
             if not balances:

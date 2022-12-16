@@ -13,18 +13,18 @@ class Account(Resource):
         """ Get balance for a given user (token) """
         try:
             if token not in activeTokens.keys():
-                return "Please login to continue.", 404
+                return "Please login to continue.", 400
             email = activeTokens[token]
 
             account = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()['User']
             if not account:
                 return "Error, no account found", 404
             if not account.verified:
-                return "Please verify first", 404
+                return "Please verify first", 400
 
             balances = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
             if not balances:
-                return "Account doesn't have any balance", 404
+                return "Account doesn't have any balance", 400
 
             list = []
             balance_schema = BalanceSchema()
@@ -40,14 +40,17 @@ class Account(Resource):
         args = accountBalanceArgs.parse_args()
         try:
             if token not in activeTokens.keys():
-                return "Please login to continue.", 404
+                return "Please login to continue.", 400
             email = activeTokens[token]
+
+            if args["amount"] <= 0:
+                return "Amount must be greater than 0", 400
 
             account = db.session.execute(db.select(User).filter_by(email=email)).one_or_none()['User']
             if not account:
                 return "Error, no account found", 404
             if not account.verified:
-                return "Please verify first", 404
+                return "Please verify first", 400
 
             accountStates = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
             targetBalance = None            
@@ -60,7 +63,7 @@ class Account(Resource):
             if targetBalance:
                 card = db.session.execute(db.select(CreditCard).filter_by(cardNumber=account.cardNumber)).one_or_none()["CreditCard"]
                 if card.amount < amount:
-                    return "You don't have enough money on credit card", 404
+                    return "You don't have enough money on credit card", 400
                 card.amount -= amount
                 targetBalance.amount += amount
                 db.session.commit()
