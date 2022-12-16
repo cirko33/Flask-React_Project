@@ -1,4 +1,4 @@
-from Configuration.config import api, jsonify, db, activeTokens
+from Configuration.config import api, jsonify, db, activeTokens, make_response
 from flask_restful import Resource
 from Models.__init__ import Transaction, TransactionSchema
 from Configuration.config import reqparse
@@ -31,7 +31,7 @@ class TransactionProfile(Resource):
                 transaction_schema = TransactionSchema()
                 result = transaction_schema.dump(transaction["Transaction"])
                 list.append(result)                
-            return jsonify(list), 200        
+            return make_response(jsonify(list), 200)    
         except Exception as e:
             return 'Error: ' + str(e), 500
             

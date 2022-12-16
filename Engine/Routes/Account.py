@@ -31,7 +31,7 @@ class Account(Resource):
             for balance in balances:
                 result = balance_schema.dump(balance["Balance"])
                 list.append(result)                    
-            return jsonify(list), 200
+            return make_response(jsonify(list), 200)
         except Exception as e:
             return "Error: " + str(e), 500
     

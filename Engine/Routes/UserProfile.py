@@ -1,4 +1,4 @@
-from Configuration.config import reqparse, api, db, jsonify, Resource, activeTokens
+from Configuration.config import reqparse, api, db, jsonify, Resource, activeTokens, make_response
 from Models.User import User, UserSchema
 
 userUpdateArgs = reqparse.RequestParser()
@@ -22,7 +22,7 @@ class UserProfile(Resource):
             user_schema = UserSchema()
             result = user_schema.dump(user)
             result.pop('password')
-            return jsonify(result), 200
+            return make_response(jsonify(result), 200)
         except Exception as e:
             return "Error: " + str(e), 500
         
@@ -57,7 +57,7 @@ class UserProfile(Resource):
             user_schema = UserSchema()
             result = user_schema.dump(account)
             activeTokens[token] = account.email
-            return jsonify(result), 200
+            return make_response(jsonify(result), 200)
         except Exception as e:
             return "Error: " + str(e), 500
 
