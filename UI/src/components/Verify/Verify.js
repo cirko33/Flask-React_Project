@@ -1,5 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../store/auth-context.js";
 import Button from "../common/Button.js";
 import Input from "../common/Input.js";
 import styles from "./Verify.module.css";
@@ -21,6 +22,7 @@ const Verify = (props) => {
   const cvcInputRef = useRef();
   const userNameInputRef = useRef();
 
+  const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
 
   const saveVerify = async (verifyData) => {
@@ -39,7 +41,9 @@ const Verify = (props) => {
       if (!response.ok) {
         throw new Error(response.statusText);
       } else {
-        navigate("/home");
+        alert("Verification successful. Please login again!");
+        authCtx.onLogout();
+        navigate("/login");
         return;
       }
     } catch (error) {

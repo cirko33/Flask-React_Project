@@ -28,10 +28,7 @@ function App() {
 
       const data = await response.json();
 
-      setTimeout(() => {
-        setVerified(data.verified);
-        console.log(data.verified);
-      }, 100);
+      setVerified(data.verified);
     };
 
     isUserVerified().catch((error) => {
