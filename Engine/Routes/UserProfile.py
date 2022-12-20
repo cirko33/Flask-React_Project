@@ -7,7 +7,7 @@ userUpdateArgs.add_argument("lastName", type=str)
 userUpdateArgs.add_argument("email", type=str)
 userUpdateArgs.add_argument("address", type=str)
 userUpdateArgs.add_argument("city", type=str)
-userUpdateArgs.add_argument("phoneNumber", type=int)
+userUpdateArgs.add_argument("phoneNumber", type=str)
 userUpdateArgs.add_argument("password", type=str)
 
 #User profile get and put (change)
