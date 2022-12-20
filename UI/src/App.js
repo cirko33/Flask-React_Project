@@ -13,11 +13,7 @@ function App() {
     const logInHandler = () =>{
         setIsLoggedIn(!isLoggedIn);
     }
-
-    const homeHandler = () =>{
-        alert("HOME PAGE");
-    }
-
+    
     useEffect(() => {
         const isUserVerified = async() => {
             const response = await fetch(
@@ -44,7 +40,7 @@ function App() {
 
     return (
         <React.Fragment>
-            <Header onLogInClick = {logInHandler} onHomeClick={homeHandler} isLoggedIn={isLoggedIn}></Header>            
+            <Header onLogInClick = {logInHandler} isLoggedIn={isLoggedIn}></Header>            
             {(authCtx.isLoggedIn && !verified && <Verify/>) || (isLoggedIn && <LogIn />) || (!isLoggedIn && <Register />)}            
         </React.Fragment>
     );
