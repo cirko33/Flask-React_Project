@@ -1,49 +1,61 @@
-import React, { useState, useContext, useEffect } from 'react';
-import Header from './components/Header/Header.js'
-import LogIn from './components/LogIn/LogIn.js';
-import Register from './components/Register/Register.js';
-import Verify from './components/Verify/Verify.js';
-import AuthContext from './store/auth-context.js';
+import React, { useState, useContext, useEffect } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Header from "./components/Header/Header.js";
+import Home from "./components/Home/Home.js";
+import LogIn from "./components/LogIn/LogIn.js";
+import Register from "./components/Register/Register.js";
+import UserInfo from "./components/UserInfo/UserInfo.js";
+import AuthContext from "./store/auth-context.js";
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [verified, setVerified] = useState(false);
-    const authCtx = useContext(AuthContext);    
-    
-    const logInHandler = () =>{
-        setIsLoggedIn(!isLoggedIn);
-    }
-    
-    useEffect(() => {
-        const isUserVerified = async() => {
-            const response = await fetch(
-                "http://localhost:5000/userProfile/" + authCtx.user
-            );
-        
-            if(!response.ok){
-                throw new Error("Can't retrieve token, nobody is logged in..");
-            }
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const authCtx = useContext(AuthContext);
 
-            const data = await response.json();
+  const logInHandler = () => {
+    setIsLoggedIn(!isLoggedIn);
+  };
 
-            setTimeout(() => {
-                setVerified(data.verified);
-                console.log(data.verified)
-            }, 100);
-        }
+  useEffect(() => {
+    const isUserVerified = async () => {
+      const response = await fetch(
+        "http://localhost:5000/userProfile/" + authCtx.user
+      );
 
-        isUserVerified().catch((error) => {
-            console.log(error.message);
-        });
+      if (!response.ok) {
+        throw new Error("Can't retrieve token, nobody is logged in..");
+      }
 
-    }, [authCtx.user]);    
+      const data = await response.json();
 
-    return (
-        <React.Fragment>
-            <Header onLogInClick = {logInHandler} isLoggedIn={isLoggedIn}></Header>            
-            {(authCtx.isLoggedIn && !verified && <Verify/>) || (isLoggedIn && <LogIn />) || (!isLoggedIn && <Register />)}            
-        </React.Fragment>
-    );
+      setTimeout(() => {
+        setVerified(data.verified);
+        console.log(data.verified);
+      }, 100);
+    };
+
+    isUserVerified().catch((error) => {
+      console.log(error.message);
+    });
+  }, [authCtx.user]);
+
+
+  return (
+    <React.Fragment>
+      <Header
+        onLogInClick={logInHandler}
+        isLoggedIn={isLoggedIn}
+        verified={verified}
+      ></Header>
+      <Routes>
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<Home verified={verified}/>} />
+        <Route path="/info" element={<UserInfo />} />
+        <Route path="/" element={<Navigate to="/login" />} />
+      </Routes>
+    </React.Fragment>
+  );
 }
 
 export default App;
