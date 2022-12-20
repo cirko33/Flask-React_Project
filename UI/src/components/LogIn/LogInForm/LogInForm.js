@@ -32,7 +32,6 @@ const LogInForm = () => {
         if(isEmailValidBool && isPasswordValidBool) {
             const logInData = { email: enteredEmail, password: enteredPassword};
             authCtx.onLogin(logInData);
-            console.log(sessionStorage.getItem('user'));
         }
         else
           return;

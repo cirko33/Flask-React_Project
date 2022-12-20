@@ -1,7 +1,7 @@
 import React, {useState, useRef} from "react";
 import Button from "../../common/Button.js";
 import Input from "../../common/Input.js";
-import styles from '../../Register/RegisterForm/RegisterForm.module.css';
+import styles from './RegisterForm.module.css';
 const isEmpty = (value) => value.trim().length === 0;
 
 const RegisterForm = () => {
