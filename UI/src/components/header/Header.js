@@ -17,14 +17,10 @@ const Header = (props) => {
     return(
         <React.Fragment>
             <header className={style.header}>
-                <Button onClick = {props.onHomeClick}>Home</Button>
                 <h1>Welcome to online banking!</h1>
                 {!authCtx.isLoggedIn && <Button onClick = {props.onLogInClick}>{name}</Button>}
                 {authCtx.isLoggedIn && <Button onClick = {buttonHandler}>Logout</Button>}
-            </header>
-            <div className={style["image"]}>
-                <img src={"https://static01.nyt.com/images/2018/08/26/business/26VIEW.illo/26VIEW.illo-superJumbo.jpg"} alt={text}/>
-            </div>
+            </header>           
         </React.Fragment>
     )
 }
