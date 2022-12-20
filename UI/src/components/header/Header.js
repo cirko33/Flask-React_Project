@@ -4,7 +4,6 @@ import Button from '../common/Button.js';
 import AuthContext from '../../store/auth-context';
 
 const Header = (props) => {
-    let text = "Image cannot be found!";
     const authCtx = useContext(AuthContext);
     
     let name = props.isLoggedIn ? "Register" : "Log In";
