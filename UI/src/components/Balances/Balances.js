@@ -63,7 +63,7 @@ const Balances = () => {
           );
     
           if (!response.ok) {
-            throw new Error(response.statusText);
+            alert(response.statusText)
         }
     }
   }
