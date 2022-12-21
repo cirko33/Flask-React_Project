@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext({
     isLoggedIn: false,
@@ -10,6 +11,8 @@ const AuthContext = React.createContext({
 export const AuthContextProvider = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const loggedIn = sessionStorage.getItem('isLoggedIn');
@@ -35,7 +38,7 @@ export const AuthContextProvider = (props) => {
             );
 
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error("Invalid email or password!!!");
             }
 
             const data = await response.json();
@@ -43,7 +46,8 @@ export const AuthContextProvider = (props) => {
             setUser(data.token);
             setIsLoggedIn(true);
             sessionStorage.setItem('isLoggedIn', '1');
-            sessionStorage.setItem('user', data.token);           
+            sessionStorage.setItem('user', data.token);         
+            navigate("/home");  
         } catch (error){
             alert(error.message);
         }
@@ -63,13 +67,14 @@ export const AuthContextProvider = (props) => {
             );
 
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error("Error with Logout!!!");
             }
 
             setUser(null);
             setIsLoggedIn(false);
             sessionStorage.removeItem('isLoggedIn');
-            sessionStorage.removeItem('user');           
+            sessionStorage.removeItem('user');    
+            navigate("/login");       
         } catch (error){
             alert(error.message);
         }

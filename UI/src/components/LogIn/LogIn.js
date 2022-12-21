@@ -3,7 +3,7 @@ import Input from "../common/Input.js";
 import styles from './LogIn.module.css';
 import Button from '../common/Button.js';
 import AuthContext from "../../store/auth-context.js";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const isEmpty = (value) => value.trim().length === 0;
 
 const LogIn = () => {
@@ -13,8 +13,6 @@ const LogIn = () => {
     const authCtx = useContext(AuthContext);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
-
-    const navigate = useNavigate();
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -35,7 +33,6 @@ const LogIn = () => {
         if(isEmailValidBool && isPasswordValidBool) {
             const logInData = { email: enteredEmail, password: enteredPassword};
             authCtx.onLogin(logInData);
-            navigate('/home');
         }
         else
           return;
