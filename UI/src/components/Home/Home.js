@@ -1,10 +1,11 @@
 import React from 'react';
 import Verify from '../Verify/Verify'
+import Balances from '../Balances/Balances';
 
 const Home = (props) => {
     return (<React.Fragment>
         {!props.verified && <Verify />}
-        {props.verified && <h1>HOME CONTENT</h1>}
+        {props.verified && <Balances>HOME CONTENT</Balances>}
     </React.Fragment>)
 };
 

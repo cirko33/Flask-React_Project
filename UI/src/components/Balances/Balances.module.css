@@ -1,0 +1,36 @@
+.balances {
+    max-width: 60rem;
+    width: 90%;
+    margin: 2rem auto;
+    animation: meals-appear 1s ease-out forwards;
+  }
+  
+  .BalancesLoading {
+    text-align: center;
+    color: black;
+    font-weight: bold;
+  }
+  
+  .BalancesError {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+  }
+  
+  .balances ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  @keyframes balances-appear {
+    from {
+      opacity: 0;
+      transform: translateY(3rem);
+    }
+  
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
