@@ -8,7 +8,7 @@ const Balances = () => {
   useEffect(() => {
     const getBalances = async () => {
       const response = await fetch(
-        "http://localhost:5000/accountBalance/" + sessionStorage("user")
+        "http://localhost:5000/accountBalance/" + sessionStorage.getItem('user')
       );
 
       if (!response.ok) {
@@ -19,6 +19,7 @@ const Balances = () => {
       const loadedBalances = [];
       for (const key in data) {
         loadedBalances.push({
+          id: key,
           pk: data[key].pk,
           currency: data[key].currency,
           amount: data[key].amount
@@ -28,21 +29,26 @@ const Balances = () => {
         setBalances(loadedBalances);        
       }, 1000);
     };
+
     getBalances().catch((error) => {      
         console.log(error.message);
       });
   }, []);
 
   let content = (
+    <React.Fragment>
+    <h1>YOUR CURRENT BALANCES:</h1>
     <ul>
         {balances.map((balance) => (
           <Balance
+            key={balance.id}
             pk={balance.id}
             amount={balance.amount}
             currency={balance.currency}
           />
         ))}
     </ul>
+    </React.Fragment>
   );
 
   return <div className={styles.balances}>{content}</div>
