@@ -4,7 +4,7 @@ import Balances from '../Balances/Balances';
 
 const Home = (props) => {
     return (<React.Fragment>
-        {!props.verified && <Verify />}
+        {!props.verified && <Verify setVerified={props.setVerified}/>}
         {props.verified && <Balances/>}
     </React.Fragment>)
 };

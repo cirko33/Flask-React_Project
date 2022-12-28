@@ -1,3 +1,4 @@
+import sys
 from time import sleep
 from Configuration.config import db, sendingSocket
 from Models.__init__ import Transaction, User, Balance
@@ -21,10 +22,10 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress):
         mutex.release()
 
     try:
-        print("Starting thread...")
+        print("Starting thread...", sys.stderr)
         transaction = addTransaction(email, receiver, amount, "In progress") 
         sleep(10)
-        print("Starting money exchange...")
+        print("Starting money exchange...", sys.stderr)
         account = db.session.execute(db.select(User).filter_by(userEmail=email)).one_or_none()['User']
         if not account:
             changeTransactionState(transaction, "Denied")

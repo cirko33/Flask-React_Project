@@ -39,8 +39,9 @@ const Verify = (props) => {
       if (!response.ok) {
         throw new Error(response.statusText);
       } else {
-        alert("Verification successful. Please login again!");
-        authCtx.onLogout();
+        props.setVerified(true);
+        // alert("Verification successful. Please login again!");
+        // authCtx.onLogout();
         return;
       }
     } catch (error) {

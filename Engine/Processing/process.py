@@ -12,8 +12,8 @@ def processWorker(q: Queue):
             sleep(0.1)
             continue
         
-        (email, receiver, amount, currency, type), ipAddress = q.get()
-        Thread(target=threadWorker, args=(email, receiver, amount, currency, type, ipAddress)).join()
+        transaction = q.get()
+        Thread(target=threadWorker, args=transaction).start()
 
 def openProcess(token, ipAddress):
     """ Opens a new process for given user (token) """
@@ -33,8 +33,7 @@ def closeProcess(token):
 def addTransaction(token, transaction: tuple):
     """ Adds a transaction to the process queue """
     if not activeProcesses[token]:
-        print("ERROR: Process is not active")
-        
+        print("ERROR: Process is not active")   
     process, queue, ipAddress = activeProcesses[token]
-    queue.put(transaction, ipAddress)
+    queue.put(transaction + (ipAddress,))
 

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import Header from "./components/Header/Header.js";
+import Header from "./components/header/Header.js";
 import Home from "./components/Home/Home.js";
 import LogIn from "./components/LogIn/LogIn.js";
 import Register from "./components/Register/Register.js";
@@ -47,7 +47,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home verified={verified}/>} />
+        <Route path="/home" element={<Home verified={verified} setVerified={setVerified}/>} />
         <Route path="/info" element={<UserInfo />} />
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
