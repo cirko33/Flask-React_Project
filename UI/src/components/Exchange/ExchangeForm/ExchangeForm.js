@@ -1,38 +1,23 @@
-import React, {useEffect, useState} from "react";
-import Input from "../common/Input"
+import React, { useState, useContext, useRef } from "react";
+import Input from "../../common/Input";
+import Button from "../../common/Button";
+import RatesContext from "../../../store/rates-context";
 
 const ExchangeForm = (props) => {
-    //Treba ubaciti check i onda change money
-    const [rates, setRates] = useState({});
-    const URL = 'http://api.exchangeratesapi.io/v1/latest?access_key=57d102e76d357aaaab5dba8955ffa5a8';
     const [isValidOldAmount, setValidOldAmount] = useState(false);
     const [isValidOldCurrency, setValidOldCurrency] = useState(false);
     const [isValidNewCurrency, setValidNewCurrency] = useState(false);
+
     const [oldCurrency, setOldCurrency] = useState("RSD");
     const [newCurrency, setNewCurrency] = useState("RSD");
     const [newAmount, setNewAmount] = useState(-1);
 
+    const isEmpty = (value) => value.trim().length === 0;
     const oldAmountRef = useRef();
-    const authCtx = useContext(AuthContext);
 
-    useEffect(async () => {
-        if(rates != {}) return;
-        try {
-            const response = await fetch(URL, { method: "POST" });
-            if(!response.ok) 
-                console.log("Cant get API for currency");
-            
-            const data = await response.json();
-            setRates(data.rates); //Rates in amount of 1 eur
-            console.log(rates);
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }, []);
-
+    const rates = useContext(RatesContext);
     const checkValid = () => {
-        oldAmount = oldAmountRef.current.value;
+        const oldAmount = oldAmountRef.current.value;
         setValidOldAmount(false);
         setValidOldCurrency(false);
         setValidNewCurrency(false);
@@ -66,13 +51,15 @@ const ExchangeForm = (props) => {
     const changeHandler = async(event) => {
         event.preventDefault();
         if(checkValid()) {
+            const oldAmount = oldAmountRef.current.value;
             const data = {
                 "oldAmount": oldAmount,
                 "oldCurrency": oldCurrency,
                 "newAmount":  oldAmount / rates[oldCurrency] * rates[newCurrency],
                 "newCurrency": newCurrency
             };
-            const response = await fetch("http://localhost:5000/exchange/" + authCtx.token, {
+
+            const response = await fetch("http://localhost:5000/exchange/" + sessionStorage.getItem("token"), {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: {
@@ -90,7 +77,8 @@ const ExchangeForm = (props) => {
     const checkHandler = (event) => {
         event.preventDefault();
         if(checkValid()) {
-            amount = oldAmount / rates[oldCurrency] * rates[newCurrency];
+            const oldAmount = oldAmountRef.current.value;
+            const amount = oldAmount / rates[oldCurrency] * rates[newCurrency];
             setNewAmount(amount);
         }
     }
@@ -103,15 +91,19 @@ const ExchangeForm = (props) => {
         <React.Fragment>
             <Input ref={oldAmountRef} label={"Amount to change:"} input={{ id: "oldAmount" }} type="number"/>
             <select value={oldCurrency} onChange={e => setOldCurrency(e.target.value)}>
-                {Object.keys(rates).forEach(element => {
-                    <option value={element}>{element}</option>
-                })}
+                {
+                    Object.keys(rates).forEach((key) => {
+                        <option value={key}>{key}</option>
+                    })
+                }
             </select>
             <label>{newAmount}</label>
             <select value={newCurrency} onChange={e => setNewCurrency(e.target.value)}>
-                {Object.keys(rates).forEach(element => {
-                    <option value={element}>{element}</option>
-                })}
+                {
+                    Object.keys(rates).forEach((key) => {
+                        <option value={key}>{key}</option>
+                    })
+                }
             </select>
             <Button type={'submit'} onClick={checkHandler} /> 
             <Button type={'submit'} onClick={changeHandler}/>

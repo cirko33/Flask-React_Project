@@ -1,10 +1,9 @@
 import React, {useState} from "react";
-import Input from "../common/Input"
-
+import ExchangeForm from './ExchangeForm/ExchangeForm'
 const Exchange = () => {
     return (
         <React.Fragment>
-            <Input />
+            <ExchangeForm />
         </React.Fragment>
     );
 }

@@ -8,36 +8,35 @@ const Balances = () => {
   const [balances, setBalances] = useState([]);
   const [isDepositValid, setIsDepositValid] = useState(false);
   const depositInputRef = useRef();
+  const getBalances = async () => {
+    const response = await fetch(
+      "http://localhost:5000/accountBalance/" + sessionStorage.getItem('user')
+    );
+
+    if (!response.ok) {
+      throw new Error("Can't retrieve token, nobody is logged in..");
+    }
+
+    const data = await response.json();
+    const loadedBalances = [];
+    for (const key in data) {
+      loadedBalances.push({
+        id: key,
+        pk: data[key].pk,
+        currency: data[key].currency,
+        amount: data[key].amount
+      });
+    }
+
+    setBalances(loadedBalances);
+  
+  };
 
   useEffect(() => {
-    const getBalances = async () => {
-      const response = await fetch(
-        "http://localhost:5000/accountBalance/" + sessionStorage.getItem('user')
-      );
-
-      if (!response.ok) {
-        throw new Error("Can't retrieve token, nobody is logged in..");
-      }
-
-      const data = await response.json();
-      const loadedBalances = [];
-      for (const key in data) {
-        loadedBalances.push({
-          id: key,
-          pk: data[key].pk,
-          currency: data[key].currency,
-          amount: data[key].amount
-        });
-      }
-
-      setBalances(loadedBalances);
-    
-    };
-
     getBalances().catch((error) => {      
-        console.log(error.message);
-      });
-  }, [balances]);
+      console.log(error.message);
+    });
+  }, []);
 
   const depositHandler = async (event) => {
     event.preventDefault();
@@ -47,24 +46,27 @@ const Balances = () => {
         alert("ENTER VALID AMOUNT TO DEPOSIT")
     }
     else {
-        setIsDepositValid(true);
-        const depositData = {
-            amount: enteredDeposit
-        }
-        const response = await fetch(
-            "http://localhost:5000/accountBalance/" + sessionStorage.getItem('user'),
-            {
-              method: "POST",
-              body: JSON.stringify(depositData),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-    
-          if (!response.ok) {
-            alert(response.statusText)
-        }
+      setIsDepositValid(true);
+      const depositData = {
+          amount: enteredDeposit
+      }
+      const response = await fetch(
+        "http://localhost:5000/accountBalance/" + sessionStorage.getItem('user'),
+        {
+          method: "POST",
+          body: JSON.stringify(depositData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+      });
+  
+      if (!response.ok) {
+        alert(response.statusText)
+      }
+      
+      getBalances().catch((error) => {      
+        console.log(error.message);
+      });
     }
   }
 

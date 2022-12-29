@@ -29,6 +29,14 @@ function App() {
       const data = await response.json();
 
       setVerified(data.verified);
+
+      if (document.readyState === 'complete') {
+        onPageLoad();
+      } else {
+        window.addEventListener('load', onPageLoad);
+        // Remove the event listener when component unmounts
+        return () => window.removeEventListener('load', onPageLoad);
+      }
     };
 
     isUserVerified().catch((error) => {
