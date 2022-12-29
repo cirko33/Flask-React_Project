@@ -21,7 +21,8 @@ create table transaction
     receiver varchar(64) not null,
     amount float(12, 2) not null,
     currency varchar(3) not null,
-    state varchar(32) not null
+    state varchar(32) not null,
+    type varchar(8) not null
 );
 
 create table credit_card

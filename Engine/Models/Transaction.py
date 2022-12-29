@@ -9,14 +9,16 @@ class Transaction(db.Model):
     amount = db.Column(db.Float) #amount of money sent in currency bellow
     currency = db.Column(db.String(3)) #currency
     state = db.Column(db.String(32)) #state of transaction (In progress, Approved, Denied)
+    type = db.Column(db.String(8))
 
 
-    def __init__(self, sender, receiver, amount, currency, state):
+    def __init__(self, sender, receiver, amount, currency, state, type):
         self.sender = sender
         self.receiver = receiver
         self.amount = amount
         self.currency = currency
         self.state = state
+        self.type = type
 
 class TransactionSchema(Schema):
     id = fields.Number()
@@ -25,3 +27,4 @@ class TransactionSchema(Schema):
     amount = fields.Float()
     currency = fields.Str()
     state = fields.Str()
+    type = fields.Str()

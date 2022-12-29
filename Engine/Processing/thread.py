@@ -8,8 +8,8 @@ mutex = Lock()
 
 def threadWorker(email, receiver, amount, currency, type, ipAddress):
     """ Represents a thread for processing transaction """
-    def addTransaction(sender, receiver, amount, currency, state):
-        transaction = Transaction(sender, receiver, amount, currency, state)
+    def addTransaction(sender, receiver, amount, currency, state, type):
+        transaction = Transaction(sender, receiver, amount, currency, state, type)
         db.session.add(transaction)
         db.session.commit()
         sendingSocket.sendto(b"Update", (ipAddress, 5001))
@@ -23,7 +23,7 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress):
 
     try:
         print("Starting thread...", sys.stderr)
-        transaction = addTransaction(email, receiver, amount, "In progress") 
+        transaction = addTransaction(email, receiver, amount, "In progress", type) 
         sleep(10)
         print("Starting money exchange...", sys.stderr)
         account = db.session.execute(db.select(User).filter_by(userEmail=email)).one_or_none()['User']
@@ -47,7 +47,7 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress):
                 changeTransactionState(transaction, "Denied")
                 return
 
-            if type == 1: #to online 
+            if type == "online": #to online 
                 accountReceiver = db.session.execute(db.select(User).filter_by(email=receiver)).one_or_none()['User']
                 if not accountReceiver:
                     changeTransactionState(transaction, "Denied")
@@ -63,7 +63,7 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress):
                 balance.amount -= amount
                 changeTransactionState(transaction, "Accepted")
                 return
-            elif type == 2: #to bank (SIKIMI RADI)
+            elif type == "bank": #to bank (SIKIMI RADI)
                 changeTransactionState(transaction, "Accepted")
                 return
 
