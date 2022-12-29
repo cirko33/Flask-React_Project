@@ -54,3 +54,6 @@ insert into balance (accountNumber, amount, currency) values (1, 50, "EUR");
 insert into balance (accountNumber, amount, currency) values (1, 20, "USD");
 insert into balance (accountNumber, amount, currency) values (1, 2000, "RSD");
 insert into balance (accountNumber, amount, currency) values (1, 60, "KM");
+
+insert into transaction ( sender, receiver, amount, currency, state, type) values ("pera@gmail.com", "sima", 1000, "RSD", "Approved", "online");
+insert into transaction ( sender, receiver, amount, currency, state, type) values ("pera@gmail.com", "RS35105008123123123173_OPPBRS22XXX", 2000, "RSD", "Denied", "bank");
