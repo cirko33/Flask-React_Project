@@ -1,5 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
-import AuthContext from "../../store/auth-context.js";
+import React, { useState, useRef } from "react";
 import Button from "../common/Button.js";
 import Input from "../common/Input.js";
 import styles from "./Verify.module.css";
@@ -20,8 +19,6 @@ const Verify = (props) => {
   const expirationDateInputRef = useRef();
   const cvcInputRef = useRef();
   const userNameInputRef = useRef();
-
-  const authCtx = useContext(AuthContext);
 
   const saveVerify = async (verifyData) => {
     try {
