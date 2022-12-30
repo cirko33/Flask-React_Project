@@ -4,7 +4,7 @@ from Models.__init__ import Transaction, TransactionSchema
 from Processing.__init__ import addTransaction
 
 transactionArgs = reqparse.RequestParser()
-transactionArgs.add_argument("type", type=int, help="Type of transaction is required", required = True)
+transactionArgs.add_argument("type", type=str, help="Type of transaction is required", required = True)
 transactionArgs.add_argument("receiver", type=str, help="Receiver (User email or account number) is required", required = True)
 transactionArgs.add_argument("amount", type=float, help="Amount can't be 0 and it's required", required = True)
 transactionArgs.add_argument("currency", type=str, help="Currency is required", required = True)
