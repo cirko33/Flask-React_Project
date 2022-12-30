@@ -1,13 +1,20 @@
-from Configuration.config import Resource, reqparse, api, activeTokens, db
+from Configuration.config import Resource, reqparse, api, activeTokens, db, make_response, jsonify
 from Models.__init__ import User, Balance
+from Configuration.currency import exchangeMoney
 
 excArgs = reqparse.RequestParser()
 excArgs.add_argument("oldCurrency", type=str, help="Old currency field is required", required = True)
 excArgs.add_argument("newCurrency", type=str, help="New currency field is required", required = True)
 excArgs.add_argument("oldValue", type=float, help="Old value field is required", required = True) #subtract from old value of old currency
-excArgs.add_argument("newValue", type=float, help="New value field is required", required = True) #add to old value of new currency
 
 class Exchange(Resource):
+    """ Get checks value of exchange, post exchanges money """
+    def get(self, token):
+        try:
+            args = excArgs.parse_args()
+            return exchangeMoney(args["oldValue"], args["oldCurrency"], args["newCurrency"])
+        except Exception as e:
+            return "Error: " + str(e), 400
     def post(self, token):
         try:
             args = excArgs.parse_args()
@@ -19,7 +26,7 @@ class Exchange(Resource):
             if not account:
                 return "User doesnt exist!", 400
 
-            if args["newValue"] <= 0 or args["oldValue"] <= 0:
+            if args["oldValue"] <= 0:
                 return "Values must be greater 0", 400
 
             balances = db.session.execute(db.select(Balance).filter_by(accountNumber=account.accountNumber)).all()
@@ -45,7 +52,7 @@ class Exchange(Resource):
                 db.session.add(newBalance)
             
             oldBalance.amount -= args["oldValue"]
-            newBalance.amount += args["newValue"]
+            newBalance.amount += exchangeMoney(args["oldValue"], args["oldCurrency"], args["newCurrency"])
             db.session.commit()
             return "OK", 200
         except Exception as e:

@@ -1,13 +1,13 @@
 from Configuration.config import *
 from flask_restful import Resource
 from Models.__init__ import CreditCard, User, Balance
+from Configuration.currency import exchangeMoney
 
 cardArgs = reqparse.RequestParser()
 cardArgs.add_argument("cardNumber", type=str, help="Card Number is required", required=True)
 cardArgs.add_argument("expirationDate", type=str, help="Date is required", required=True)
 cardArgs.add_argument("cvc", type=int, help="CVC is required", required=True)
 cardArgs.add_argument("userName", type=str, help="Name and surname are required", required=True)
-cardArgs.add_argument("USDInRSD", type=float, required=True)
 
 #Credit card post (adding credit card)
 class Card(Resource):
@@ -15,9 +15,9 @@ class Card(Resource):
     def post(self, token):
         """ Verification of the card for a given user (token) """
         args = cardArgs.parse_args()
-        cardNumber, expirationDate, cvc, userName, USDInRSD = \
-            args['cardNumber'], args['expirationDate'], args['cvc'], args['userName'], args['USDInRSD'],
-
+        cardNumber, expirationDate, cvc, userName =  args['cardNumber'], args['expirationDate'], args['cvc'], args['userName'],
+        USDInRSD = exchangeMoney(1, "USD", "RSD")
+        
         try:
             if token not in activeTokens.keys():
                 return "Please login to continue.", 400

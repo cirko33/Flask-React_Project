@@ -23,7 +23,7 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress):
 
     try:
         print("Starting thread...", sys.stderr)
-        transaction = addTransaction(email, receiver, amount, "In progress", type) 
+        transaction = addTransaction(email, receiver, amount, currency, "In progress", type) 
         sleep(10)
         print("Starting money exchange...", sys.stderr)
         account = db.session.execute(db.select(User).filter_by(userEmail=email)).one_or_none()['User']
@@ -64,6 +64,7 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress):
                 changeTransactionState(transaction, "Accepted")
                 return
             elif type == "bank": #to bank (SIKIMI RADI)
+                balance.amount -= amount
                 changeTransactionState(transaction, "Accepted")
                 return
 
