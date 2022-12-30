@@ -1,0 +1,37 @@
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.sender {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-weight: bold;
+    color: #ad5502;
+    font-size: 2rem;
+}
+
+.currency {
+  font-style: italic;
+  font-size: xx-large;
+  display: inline-block;
+  margin-left: 2%;
+}
+
+.amount {
+  display: inline-block;
+  margin-top: 0.25rem;
+  font-weight: bold;
+  color: #ad5502;
+  font-size: 2rem;
+}
+
+.state {
+    font-style: italic;
+    font-size: xx-large;
+    display: inline-block;
+    margin-left: 2%;
+  }

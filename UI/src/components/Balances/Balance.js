@@ -3,7 +3,7 @@ import styles from './Balance.module.css';
 
 const Balance = (props) => {
       return (
-        <li className={styles.meal}>
+        <li className={styles.balance}>
             <div>
                 <div className={styles.amount}>{props.amount}</div>
                 <div className={styles.currency}>{props.currency}</div>
