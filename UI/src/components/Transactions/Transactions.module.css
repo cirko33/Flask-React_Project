@@ -19,7 +19,7 @@ table.transaction-table td {
 }
 
 /* Define the appearance of the recipient cell */
-table.transaction-table td.recipient {
+table.transaction-table td.sender {
   font-weight: bold; /* Make the text bold */
 }
 
@@ -34,7 +34,7 @@ table.transaction-table td.currency {
 }
 
 /* Define the appearance of the status cell */
-table.transaction-table td.status {
+table.transaction-table td.state {
   text-align: center; /* Center the text */
   color: #fff; /* Make the text white */
   background-color: #333; /* Make the background dark grey */
