@@ -3,6 +3,7 @@ import Verify from '../Verify/Verify'
 import Balances from '../Balances/Balances';
 import Exchange from '../Exchange/Exchange';
 import Transactions from '../Transactions/Transactions';
+import Button from '../common/Button';
 
 const Home = (props) => {
     const [mode, setMode] = useState(false); //if true exchange money, false transactions
@@ -11,6 +12,7 @@ const Home = (props) => {
         {props.verified && <Balances />}
         {props.verified && mode && <Exchange />}
         {props.verified && !mode && <Transactions />} 
+        <Button onClick={(event) => {setMode(!mode)}}>{mode ? "View transactions" : "Exchange money"}</Button>
     </React.Fragment>)
 };
 
