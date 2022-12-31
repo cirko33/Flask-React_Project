@@ -2,6 +2,8 @@ import React, { useState, useContext, useRef } from "react";
 import Input from "../../common/Input";
 import Button from "../../common/Button";
 import RatesContext from "../../../store/rates-context";
+import ratesData from "./rates.json"
+import styles from "./ExchangeForm.module.css"
 
 const ExchangeForm = (props) => {
     const [isValidOldAmount, setValidOldAmount] = useState(false);
@@ -55,7 +57,6 @@ const ExchangeForm = (props) => {
             const data = {
                 "oldAmount": oldAmount,
                 "oldCurrency": oldCurrency,
-                "newAmount":  oldAmount / rates[oldCurrency] * rates[newCurrency],
                 "newCurrency": newCurrency
             };
 
@@ -86,13 +87,13 @@ const ExchangeForm = (props) => {
     // const oldAmountCC = `${styles.control} ${isValidOldAmount ? "" : styles.invalid}`;
     // const oldCurrencyCC = `${styles.control} ${isValidOldCurrency ? "" : styles.invalid}`
     // const newCurrencyCC = `${styles.control} ${isValidNewCurrency ? "" : styles.invalid}`
-
+    
     return (
         <React.Fragment>
             <Input ref={oldAmountRef} label={"Amount to change:"} input={{ id: "oldAmount" }} type="number"/>
             <select value={oldCurrency} onChange={e => setOldCurrency(e.target.value)}>
                 {
-                    Object.keys(rates).forEach((key) => {
+                    ratesData["rates"].forEach((key) => {
                         <option value={key}>{key}</option>
                     })
                 }
@@ -100,13 +101,14 @@ const ExchangeForm = (props) => {
             <label>{newAmount}</label>
             <select value={newCurrency} onChange={e => setNewCurrency(e.target.value)}>
                 {
-                    Object.keys(rates).forEach((key) => {
+                    ratesData["rates"].forEach((key) => {
                         <option value={key}>{key}</option>
                     })
                 }
             </select>
-            <Button type={'submit'} onClick={checkHandler} /> 
-            <Button type={'submit'} onClick={changeHandler}/>
+            <Button type={'submit'} onClick={checkHandler}>Check exchange</Button> 
+            <Button type={'submit'} onClick={changeHandler}>Exchange money</Button>
+            {console.log(ratesData)}
         </React.Fragment>
     );
 }

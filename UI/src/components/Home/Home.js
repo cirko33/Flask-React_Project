@@ -12,7 +12,7 @@ const Home = (props) => {
         {props.verified && <Balances />}
         {props.verified && mode && <Exchange />}
         {props.verified && !mode && <Transactions />} 
-        <Button onClick={(event) => {setMode(!mode)}}>{mode ? "View transactions" : "Exchange money"}</Button>
+        {props.verified && <Button onClick={(event) => {setMode(!mode)}}>{mode ? "View transactions" : "Exchange money"}</Button>}
     </React.Fragment>)
 };
 
