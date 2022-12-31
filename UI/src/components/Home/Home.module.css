@@ -1,0 +1,12 @@
+.parent {
+    display: flex;
+  }
+  
+  .leftContent {
+    flex-basis: 45%;
+  }
+  
+  .rightContent {
+    flex-basis: 35%;
+  }
+  
