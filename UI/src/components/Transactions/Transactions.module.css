@@ -1,9 +1,43 @@
-ul.transaction-list {
-  list-style: none; /* Remove the bullet points */
-  margin: 0; /* Remove the margin */
-  padding: 0; /* Remove the padding */
+/* Define the layout and appearance of the transaction table */
+table.transaction-table {
+  border-collapse: collapse; /* Remove the space between cells */
+  width: 100%; /* Make the table take up the full width */
 }
 
+/* Define the appearance of the table headings */
+table.transaction-table th {
+  text-align: left; /* Align the text to the left */
+  background-color: #ccc; /* Make the background light grey */
+  border: 1px solid #333; /* Add a border around the cells */
+  padding: 10px; /* Add some padding around the text */
+}
 
-  
+/* Define the appearance of the table cells */
+table.transaction-table td {
+  border: 0px solid #333; /* Add a border around the cells */
+  padding: 10px; /* Add some padding around the text */
+}
 
+/* Define the appearance of the recipient cell */
+table.transaction-table td.recipient {
+  font-weight: bold; /* Make the text bold */
+}
+
+/* Define the appearance of the amount cell */
+table.transaction-table td.amount {
+  text-align: right; /* Align the text to the right */
+}
+
+/* Define the appearance of the currency cell */
+table.transaction-table td.currency {
+  text-align: center; /* Center the text */
+}
+
+/* Define the appearance of the status cell */
+table.transaction-table td.status {
+  text-align: center; /* Center the text */
+  color: #fff; /* Make the text white */
+  background-color: #333; /* Make the background dark grey */
+  border-radius: 4px; /* Round the corners */
+  padding: 4px; /* Add some padding */
+}

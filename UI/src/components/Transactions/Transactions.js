@@ -1,9 +1,10 @@
 import React, { useState, useEffect} from "react";
-import Transaction from "./Transaction.js";
 import styles from './Transactions.module.css'
 
 const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
+  const [sortField, setSortField] = useState(null);
+  const [sortDirection, setSortDirection] = useState(null);
 
   const getTransactions = async () => {
     const response = await fetch(
@@ -28,6 +29,7 @@ const Transactions = () => {
     }
 
     setTransactions(loadedTransactions);
+    console.log(loadedTransactions);
   
   };
 
@@ -37,21 +39,73 @@ const Transactions = () => {
     });
   }, []);
 
+  const handleSortClick = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
+  const sortedTransactions = [...transactions];
+  if (sortField) {
+    sortedTransactions.sort((a, b) => {
+      if (a[sortField] < b[sortField]) {
+        return sortDirection === 'asc' ? -1 : 1;
+      }
+      if (a[sortField] > b[sortField]) {
+        return sortDirection === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }
+      
+
   let content = (
     <React.Fragment>
     <h1>YOUR TRANSACTIONS:</h1>
-    <ul className="transactions-list">
-        {transactions.map((transaction) => (
-          <Transaction
-            key={transaction.id}
-            pk={transaction.id}
-            sender={transaction.sender}
-            amount={transaction.amount}
-            currency={transaction.currency}
-            state={transaction.state}
-          />
-        ))}
-    </ul>
+    <table>
+  <thead>
+    <tr>
+      <th onClick={() => handleSortClick('sender')}>
+        Sender
+        {sortField === 'sender' && (
+          <span>{sortDirection === 'asc' ? '▲' : '▼'}</span>
+        )}
+      </th>
+      <th onClick={() => handleSortClick('amount')}>
+        Amount
+        {sortField === 'amount' && (
+          <span>{sortDirection === 'asc' ? '▲' : '▼'}</span>
+        )}
+      </th>
+      <th onClick={() => handleSortClick('currency')}>
+        Currency
+        {sortField === 'currency' && (
+          <span>{sortDirection === 'asc' ? '▲' : '▼'}</span>
+        )}
+      </th>
+      <th onClick={() => handleSortClick('state')}>
+        State
+        {sortField === 'state' && (
+          <span>{sortDirection === 'asc' ? '▲' : '▼'}</span>
+        )}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {sortedTransactions.map((transaction) => (
+      <tr>
+        <td>{transaction.sender}</td>
+        <td>{transaction.amount}</td>
+        <td>{transaction.currency}</td>
+        <td>{transaction.state}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
     </React.Fragment>
   );
 
