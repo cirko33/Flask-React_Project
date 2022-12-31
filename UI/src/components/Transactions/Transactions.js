@@ -40,7 +40,7 @@ const Transactions = () => {
   let content = (
     <React.Fragment>
     <h1>YOUR TRANSACTIONS:</h1>
-    <ul>
+    <ul className="transactions-list">
         {transactions.map((transaction) => (
           <Transaction
             key={transaction.id}

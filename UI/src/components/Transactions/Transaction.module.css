@@ -1,37 +1,39 @@
-.transaction {
-    display: flex;
-    justify-content: space-between;
-    margin: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #ccc;
+
+/* Define the appearance of each transaction item */
+li {
+  display: flex; /* Display the items in a row */
+  align-items: left; /* Center the items vertically */
+  padding: 10px; /* Add some padding around each item */
+  border-bottom: 1px solid #ccc; /* Add a border at the bottom of each item */
 }
 
+/* Define the appearance of the recipient field */
 .sender {
-    display: inline-block;
-    margin-top: 0.25rem;
-    font-weight: bold;
-    color: #ad5502;
-    font-size: 2rem;
+  flex: 1; /* Take up the remaining space in the row */
+  font-weight: bold; /* Make the text bold */
 }
 
-.currency {
-  font-style: italic;
-  font-size: xx-large;
-  display: inline-block;
-  margin-left: 2%;
-}
-
+/* Define the appearance of the amount field */
 .amount {
-  display: inline-block;
-  margin-top: 0.25rem;
-  font-weight: bold;
-  color: #ad5502;
-  font-size: 2rem;
+  width: 120px; /* Set the width to 120px */
+  text-align: right; /* Align the text to the right */
+  margin-left: 20px; /* Add some space between the recipient and amount fields */
 }
 
+/* Define the appearance of the currency field */
+.currency {
+  width: 50px; /* Set the width to 50px */
+  text-align: center; /* Center the text */
+  margin-left: 20px; /* Add some space between the amount and currency fields */
+}
+
+/* Define the appearance of the status field */
 .state {
-    font-style: italic;
-    font-size: xx-large;
-    display: inline-block;
-    margin-left: 2%;
-  }
+  width: 100px; /* Set the width to 100px */
+  text-align: center; /* Center the text */
+  margin-left: 20px; /* Add some space between the currency and status fields */
+  color: #fff; /* Make the text white */
+  background-color: #333; /* Make the background dark grey */
+  border-radius: 4px; /* Round the corners */
+  padding: 4px; /* Add some padding */
+}
