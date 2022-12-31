@@ -5,7 +5,7 @@ import Exchange from '../Exchange/Exchange';
 import Transactions from '../Transactions/Transactions';
 
 const Home = (props) => {
-    const [mode, setMode] = useState(true); //if true exchange money, false transactions
+    const [mode, setMode] = useState(false); //if true exchange money, false transactions
     return (<React.Fragment>
         {!props.verified && <Verify setVerified={props.setVerified}/>}
         {props.verified && <Balances />}

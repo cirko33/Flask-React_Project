@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef} from "react";
+import React, { useState, useEffect} from "react";
 import Transaction from "./Transaction.js";
-import styles from './Transactions.module.css`'
-import Input from '../common/Input.js'
+import styles from './Transactions.module.css'
 
 const Transactions = () => {
   const [transactions, setTransactions] = useState([]);

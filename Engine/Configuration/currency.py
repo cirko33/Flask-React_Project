@@ -1,7 +1,7 @@
 #gets currency rates from API once a day
 import json, sys, datetime, urllib.request
 
-path = "./Configuration/rates.json"
+path = "./Engine/Configuration/rates.json"
 def getRatesFromAPI():
     url = 'http://api.exchangeratesapi.io/v1/latest?access_key=57d102e76d357aaaab5dba8955ffa5a8'
     data = urllib.request.urlopen(url).read()
