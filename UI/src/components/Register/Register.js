@@ -77,13 +77,13 @@ const Register = () => {
     });
 
     const formIsValid =
-      enteredFirstName &&
-      enteredLastName &&
-      enteredAddress &&
-      enteredCity &&
-      enteredPhoneNumber &&
-      enteredEmail &&
-      enteredPassword;
+      enteredFirstNameIsValid &&
+      enteredLastNameIsValid &&
+      enteredAddressIsValid &&
+      enteredCityIsValid &&
+      enteredPhoneNumberIsValid &&
+      enteredEmailIsValid &&
+      enteredPasswordIsValid;
 
     if (!formIsValid) return;
 

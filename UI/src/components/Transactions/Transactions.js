@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TransactionsOnline from "./TransactionsOnline";
 import TransactionsBank from './TransactionsBank';
+import TransactionForm from "./TransactionForm";
 
 const Transactions = () => {
   const [transactionsOnline, setTransactionsOnline] = useState([]);
@@ -59,6 +60,7 @@ const Transactions = () => {
 
   return (
     <React.Fragment>
+      <TransactionForm />
       <TransactionsOnline list={transactionsOnline}/>
       <TransactionsBank list={transactionsBank}/>
     </React.Fragment>

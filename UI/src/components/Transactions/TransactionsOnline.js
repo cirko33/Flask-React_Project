@@ -67,7 +67,7 @@ const TransactionsOnline = (props) => {
         </thead>
         <tbody>
           {sortedTransactions.map((transaction) => (
-            <tr>
+            <tr key={transaction.id}>
               <td className={styles.sender}>{transaction.sender}</td>
               <td className={styles.receiver}>{transaction.receiver}</td>
               <td className={styles.amount}>{transaction.amount}</td>

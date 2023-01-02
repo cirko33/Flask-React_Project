@@ -67,7 +67,7 @@ const TransactionsOnline = (props) => {
         </thead>
         <tbody>
           {sortedTransactions.map((transaction) => (
-            <tr>
+            <tr key={transaction.id}>
               <td className={styles.iban}>{transaction.iban}</td>
               <td className={styles.swift}>{transaction.swift}</td>
               <td className={styles.amount}>{transaction.amount}</td>

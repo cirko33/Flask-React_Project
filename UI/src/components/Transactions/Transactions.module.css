@@ -4,9 +4,8 @@
   width: 100%; /* Make the table take up the full width */
   font: inherit;
   cursor: pointer;
-  background-color: #8a2b06;
-  border: 1px solid #8a2b06;
-  color: white;
+  color: #ca3e51;
+  border: 3px solid #8a2b06;
   padding: 0.25rem 2rem;
   border-radius: 20px;
   font-weight: bold;
@@ -18,7 +17,14 @@
 
 /* Define the appearance of the table headings */
 th {
+  color: black;
   text-align: center; /* Align the text to the left */
+  border: 1px solid #8a2b06;
+}
+
+td {
+  text-align: center; /* Align the text to the left */
+  border: 1px solid #8a2b06;
 }
 
 /* Define the appearance of the recipient cell */

@@ -84,12 +84,12 @@ const UserInfo = () => {
     });
 
     const formIsValid =
-      enteredFirstName &&
-      enteredLastName &&
-      enteredAddress &&
-      enteredCity &&
-      enteredPhoneNumber &&
-      enteredEmail;
+      enteredFirstNameIsValid &&
+      enteredLastNameIsValid &&
+      enteredAddressIsValid &&
+      enteredCityIsValid &&
+      enteredPhoneNumberIsValid &&
+      enteredEmailIsValid;
 
     if (!formIsValid) return;
 
