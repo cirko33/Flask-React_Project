@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./TransactionsOnline.module.css"
+import styles from "./Transactions.module.css"
 
 const TransactionsOnline = (props) => {
   const [sortField, setSortField] = useState(null);
@@ -29,8 +29,8 @@ const TransactionsOnline = (props) => {
 
   return (
     <React.Fragment>
-      <h1 className="h1-transactionOnline">Your online transactions:</h1>
-      <table className="transaction-table">
+      <h1 className={styles.transactionOnline}>Your online transactions:</h1>
+      <table className={styles.transactionTable}>
         <thead>
           <tr>
             <th onClick={() => handleSortClick("sender")}>
@@ -68,11 +68,11 @@ const TransactionsOnline = (props) => {
         <tbody>
           {sortedTransactions.map((transaction) => (
             <tr>
-              <td className="sender">{transaction.sender}</td>
-              <td className="receiver">{transaction.receiver}</td>
-              <td className="amount">{transaction.amount}</td>
-              <td className="currency">{transaction.currency}</td>
-              <td className="state">{transaction.state}</td>
+              <td className={styles.sender}>{transaction.sender}</td>
+              <td className={styles.receiver}>{transaction.receiver}</td>
+              <td className={styles.amount}>{transaction.amount}</td>
+              <td className={styles.currency}>{transaction.currency}</td>
+              <td className={styles.state}>{transaction.state}</td>
             </tr>
           ))}
         </tbody>

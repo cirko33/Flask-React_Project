@@ -1,0 +1,56 @@
+/* Define the layout and appearance of the transaction table */
+.transactionTable {
+  border-collapse: collapse; /* Remove the space between cells */
+  width: 100%; /* Make the table take up the full width */
+  font: inherit;
+  cursor: pointer;
+  background-color: #8a2b06;
+  border: 1px solid #8a2b06;
+  color: white;
+  padding: 0.25rem 2rem;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.transactionOnline {
+  margin-top: 6rem;
+}
+
+/* Define the appearance of the table headings */
+th {
+  text-align: center; /* Align the text to the left */
+}
+
+/* Define the appearance of the recipient cell */
+.sender {
+  font-weight: bold; /* Make the text bold */
+}
+
+/* Define the appearance of the recipient cell */
+.receiver {
+  font-weight: bold; /* Make the text bold */
+}
+
+.iban {
+  font-weight: bold; /* Make the text bold */
+}
+
+/* Define the appearance of the recipient cell */
+.swift {
+  font-weight: bold; /* Make the text bold */
+}
+
+/* Define the appearance of the amount cell */
+.amount {
+  text-align: center; /* Align the text to the right */
+}
+
+/* Define the appearance of the currency cell */
+.currency {
+  text-align: center; /* Center the text */
+}
+
+/* Define the appearance of the status cell */
+.state {
+  text-align: center; /* Center the text */
+}

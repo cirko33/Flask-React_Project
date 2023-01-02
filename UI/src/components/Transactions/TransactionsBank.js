@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./TransactionsBank.module.css";
+import styles from "./Transactions.module.css";
 
 const TransactionsOnline = (props) => {
   const [sortField, setSortField] = useState(null);
@@ -30,7 +30,7 @@ const TransactionsOnline = (props) => {
   return (
     <React.Fragment>
       <h1>Your bank transactions:</h1>
-      <table className="transaction-table">
+      <table className={styles.transactionTable}>
         <thead>
           <tr>
             <th onClick={() => handleSortClick("iban")}>
@@ -68,11 +68,11 @@ const TransactionsOnline = (props) => {
         <tbody>
           {sortedTransactions.map((transaction) => (
             <tr>
-              <td className="iban">{transaction.iban}</td>
-              <td className="swift">{transaction.swift}</td>
-              <td className="amount">{transaction.amount}</td>
-              <td className="currency">{transaction.currency}</td>
-              <td className="state">{transaction.state}</td>
+              <td className={styles.iban}>{transaction.iban}</td>
+              <td className={styles.swift}>{transaction.swift}</td>
+              <td className={styles.amount}>{transaction.amount}</td>
+              <td className={styles.currency}>{transaction.currency}</td>
+              <td className={styles.state}>{transaction.state}</td>
             </tr>
           ))}
         </tbody>
