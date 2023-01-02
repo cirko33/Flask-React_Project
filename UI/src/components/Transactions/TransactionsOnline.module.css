@@ -2,6 +2,11 @@
 table.transaction-table {
   border-collapse: collapse; /* Remove the space between cells */
   width: 100%; /* Make the table take up the full width */
+  border: 1px;
+}
+
+.h1-transactionOnline {
+  margin-top: 6rem;
 }
 
 /* Define the appearance of the table headings */
@@ -14,12 +19,17 @@ table.transaction-table th {
 
 /* Define the appearance of the table cells */
 table.transaction-table td {
-  border: 0px solid #333; /* Add a border around the cells */
+  border: 1px solid #333; /* Add a border around the cells */
   padding: 10px; /* Add some padding around the text */
 }
 
 /* Define the appearance of the recipient cell */
 table.transaction-table td.sender {
+  font-weight: bold; /* Make the text bold */
+}
+
+/* Define the appearance of the recipient cell */
+table.transaction-table td.receiver {
   font-weight: bold; /* Make the text bold */
 }
 

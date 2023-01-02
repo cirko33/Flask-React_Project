@@ -1,0 +1,53 @@
+/* Define the layout and appearance of the transaction table */
+table.transaction-table {
+    border-collapse: collapse; /* Remove the space between cells */
+    width: 100%; /* Make the table take up the full width */
+    font: inherit;
+    cursor: pointer;
+    background-color: #8a2b06;
+    border: 1px solid #8a2b06;
+    color: white;
+    padding: 0.25rem 2rem;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+  
+  /* Define the appearance of the table headings */
+  table.transaction-table th {
+    text-align: center; /* Align the text to the left */
+  }
+  
+  /* Define the appearance of the table cells */
+  table.transaction-table td {
+    padding: 10px; /* Add some padding around the text */
+  }
+  
+  /* Define the appearance of the recipient cell */
+  table.transaction-table td.sender {
+    font-weight: bold; /* Make the text bold */
+  }
+  
+  /* Define the appearance of the recipient cell */
+  table.transaction-table td.receiver {
+    font-weight: bold; /* Make the text bold */
+  }
+  
+  /* Define the appearance of the amount cell */
+  table.transaction-table td.amount {
+    text-align: center; /* Align the text to the right */
+  }
+  
+  /* Define the appearance of the currency cell */
+  table.transaction-table td.currency {
+    text-align: center; /* Center the text */
+  }
+  
+  /* Define the appearance of the status cell */
+  table.transaction-table td.state {
+    text-align: center; /* Center the text */
+    color: #fff; /* Make the text white */
+    background-color: #333; /* Make the background dark grey */
+    border-radius: 4px; /* Round the corners */
+    padding: 4px; /* Add some padding */
+  }
+  
