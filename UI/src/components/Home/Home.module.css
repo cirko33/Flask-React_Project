@@ -1,12 +1,15 @@
 .parent {
+    margin-top: 20px;
     display: flex;
   }
   
   .leftContent {
+    float: left;
     flex-basis: 45%;
   }
   
   .rightContent {
+    float: right;
     flex-basis: 35%;
   }
   

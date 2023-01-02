@@ -1,24 +1,36 @@
-
-@keyframes balances-appear {
-  from {
-    opacity: 0;
-    transform: translateY(3rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .form {
-    margin: 1rem 0;
-    height: 19rem;
+    margin-top: 5rem;
+    margin-left: 5%;
     overflow: auto;
   }
 
+  .input input{
+    width: 5rem;
+  }
+  .select {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .select label {
+    font-weight: bold;
+    margin-right: 1rem;
+  }
+  .label {
+    font-weight: bold;
+    margin-right: 1rem;
+  }
+  
+  .select select {
+    width: auto;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font: inherit;
+    padding-left: 0.5rem;
+  }
    .button {
-    margin-left: 15%;
+    margin-left: 2%;
     font: inherit;
     cursor: pointer;
     background-color: #8a2b06;
