@@ -19,7 +19,7 @@ class TransactionProfile(Resource):
             email = activeTokens[token]
 
             transactionSender = db.session.execute(db.select(Transaction).filter_by(sender=email)).all()
-            transactionReceiver = db.session.execute(db.select(Transaction).filter_by(receiver=email)).all()
+            transactionReceiver = db.session.execute(db.select(Transaction).filter_by(receiver=email, state = "Accepted")).all()
             
             transactions = transactionSender + transactionReceiver
             if len(transactions) == 0:
