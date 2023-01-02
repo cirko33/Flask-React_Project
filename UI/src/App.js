@@ -6,6 +6,7 @@ import LogIn from "./components/LogIn/LogIn.js";
 import Register from "./components/Register/Register.js";
 import UserInfo from "./components/UserInfo/UserInfo.js";
 import AuthContext from "./store/auth-context.js";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute.js";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,8 +48,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home verified={verified} setVerified={setVerified}/>} />
-        <Route path="/info" element={<UserInfo />} />
+        <PrivateRoute path="/home" element={<Home verified={verified} setVerified={setVerified}/>} />
+        <PrivateRoute path="/info" element={<UserInfo />} />
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </React.Fragment>
