@@ -17,24 +17,26 @@ function App() {
   };
 
   useEffect(() => {
-    const isUserVerified = async () => {
-      const response = await fetch(
-        "http://localhost:5000/userProfile/" + authCtx.user
-      );
+    if(authCtx.isLoggedIn) {
+      const isUserVerified = async () => {
+        const response = await fetch(
+          "http://localhost:5000/userProfile/" + authCtx.user
+        );
 
-      if (!response.ok) {
-        throw new Error("Can't retrieve token, nobody is logged in..");
-      }
+        if (!response.ok) {
+          throw new Error("Can't retrieve token, nobody is logged in..");
+        }
 
-      const data = await response.json();
+        const data = await response.json();
 
-      setVerified(data.verified);
-    };
+        setVerified(data.verified);
+      };
 
-    isUserVerified().catch((error) => {
-      console.log(error.message);
-    });
-  }, [authCtx.user]);
+      isUserVerified().catch((error) => {
+        console.log(error.message);
+      });
+    }
+  }, [authCtx.user, authCtx.isLoggedIn]);
 
   return (
     <React.Fragment>

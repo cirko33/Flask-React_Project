@@ -10,12 +10,18 @@ const Home = (props) => {
     const [mode, setMode] = useState(false); //if true exchange money, false transactions
     return (<React.Fragment>
         {!props.verified && <Verify setVerified={props.setVerified}/>}
-        {props.verified && mode && <Exchange />}
-        {props.verified && <Button onClick={(event) => {setMode(!mode)}}>{mode ? "View transactions" : "Exchange money"}</Button>}
-        <div className={styles.parent}>
-            <div className={styles.leftContent}>{props.verified && !mode && <Transactions />} </div>
-            <div className={styles.rightContent}>{props.verified && <Balances />}</div>
-        </div>
+        { props.verified &&
+            <div className={styles.parent}>
+                <div className={styles.leftContent}>
+                    {!mode && <Transactions />} 
+                    {mode && <Exchange />}
+                </div>
+                <div className={styles.rightContent}>
+                    <Balances />
+                    <Button onClick={event => setMode(!mode)}>{mode ? "View transactions" : "Exchange money"}</Button>
+                </div>
+            </div>
+        }   
     </React.Fragment>)
 };
 

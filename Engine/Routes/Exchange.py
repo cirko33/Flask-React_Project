@@ -3,18 +3,25 @@ from Models.__init__ import User, Balance
 from Configuration.currency import exchangeMoney
 
 excArgs = reqparse.RequestParser()
-excArgs.add_argument("oldCurrency", type=str, help="Old currency field is required", required = True)
-excArgs.add_argument("newCurrency", type=str, help="New currency field is required", required = True)
-excArgs.add_argument("oldValue", type=float, help="Old value field is required", required = True) #subtract from old value of old currency
+excArgs.add_argument("oldCurrency", type=str, help="Old currency field is required", required=True)
+excArgs.add_argument("newCurrency", type=str, help="New currency field is required", required=True)
+excArgs.add_argument("oldValue", type=float, help="Old value field is required", required=True)
+
+excArgs2 = reqparse.RequestParser()
+excArgs2.add_argument("oldCurrency", type=str, help="Old currency field is required", required=True, location='args')
+excArgs2.add_argument("newCurrency", type=str, help="New currency field is required", required=True, location='args')
+excArgs2.add_argument("oldValue", type=float, help="Old value field is required", required=True, location='args')
 
 class Exchange(Resource):
     """ Get checks value of exchange, post exchanges money """
     def get(self, token):
         try:
-            args = excArgs.parse_args()
-            return exchangeMoney(args["oldValue"], args["oldCurrency"], args["newCurrency"])
+            args = excArgs2.parse_args()
+            ret = exchangeMoney(args["oldValue"], args["oldCurrency"], args["newCurrency"])
+            return make_response(jsonify({"value":ret}), 200)
         except Exception as e:
             return "Error: " + str(e), 400
+
     def post(self, token):
         try:
             args = excArgs.parse_args()
