@@ -60,6 +60,9 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress):
                         changeTransactionState(transaction, "Denied")
                         return
 
+                    if not accountReceiver.verified:
+                        changeTransactionState(transaction, "Denied")
+                        return
                     receiverNumber = accountReceiver.accountNumber
                     receiverBalance = db.session.execute(db.select(Balance).filter_by(accountNumber=receiverNumber, currency=currency)).one_or_none()
                     if not receiverBalance:
