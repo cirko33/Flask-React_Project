@@ -23,31 +23,44 @@ const ExchangeForm = (props) => {
         setValidOldAmount(false);
         setValidOldCurrency(false);
         setValidNewCurrency(false);
+        let oldAmountValid = false;
+        let oldCurrencyValid = false;
+        let newCurrencyValid = false;
 
-        if(!isEmpty(oldAmount))
+        if(!isEmpty(oldAmount)) {
             setValidOldAmount(true);
-        if(!isEmpty(oldCurrency) && oldCurrency.length === 3)
+            oldAmountValid = true;
+        }
+        if(!isEmpty(oldCurrency) && oldCurrency.length === 3) {
             setValidOldCurrency(true);
-        if(!isEmpty(newCurrency) && newCurrency.length === 3)
+            oldCurrencyValid = true;
+        }
+        if(!isEmpty(newCurrency) && newCurrency.length === 3) {
             setValidNewCurrency(true);
+            newCurrencyValid = true;
+        }
 
         if(newCurrency === oldCurrency) {
             alert("Can't change same currency");
             setValidOldCurrency(false);
             setValidNewCurrency(false);
+            oldCurrencyValid = false;
+            newCurrencyValid = false;
         }
 
         if(!rates.includes(oldCurrency)) {
             alert("Old currency doesn't exist in API")
             setValidOldCurrency(false);
+            newCurrencyValid = false;
         }
 
         if(!rates.includes(newCurrency)) {
             alert("New currency doesn't exist in API")
             setValidNewCurrency(false);
+            oldCurrencyValid = false;
         }
 
-        return isValidNewCurrency && isValidOldCurrency && isValidOldAmount;
+        return oldAmountValid && oldCurrencyValid && newCurrencyValid;
     }
 
     const changeHandler = async(event) => {
@@ -60,6 +73,7 @@ const ExchangeForm = (props) => {
             };
 
             await exchangeService.post(data);
+            window.location.reload();
         }
     }
 
@@ -79,7 +93,7 @@ const ExchangeForm = (props) => {
     
     return (
         <div className={styles.form}>
-            <Input  ref={oldAmountRef} label={"Amount to change:"} input={{ id: "oldAmount" }} type="number"/>
+            <Input ref={oldAmountRef} label={"Amount to change:"} input={{ id: "oldAmount" }} type="number"/>
             <div className={styles.select}>
                 <label>Currency for exchange:   </label>
                 <select value={oldCurrency} onChange={e => setOldCurrency(e.target.value)}>

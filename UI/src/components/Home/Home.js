@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Verify from '../Verify/Verify'
 import Balances from '../Balances/Balances';
 import Exchange from '../Exchange/Exchange';
@@ -8,6 +8,14 @@ import styles from './Home.module.css'
 
 const Home = (props) => {
     const [mode, setMode] = useState(false); //if true exchange money, false transactions
+
+    useEffect(() => {
+        const localMode = localStorage.getItem("mode");
+        if(localMode === "1") 
+            setMode(true);
+        
+    }, [])
+
     return (<React.Fragment>
         {!props.verified && <Verify setVerified={props.setVerified}/>}
         { props.verified &&
@@ -18,7 +26,7 @@ const Home = (props) => {
                 </div>
                 <div className={styles.rightContent}>
                     <Balances />
-                    <Button onClick={event => setMode(!mode)}>{mode ? "View transactions" : "Exchange money"}</Button>
+                    <Button onClick={event => {localStorage.setItem("mode", (mode ? "0":"1")); setMode(!mode); }}>{mode ? "View transactions" : "Exchange money"}</Button>
                 </div>
             </div>
         }   

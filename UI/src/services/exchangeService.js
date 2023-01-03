@@ -8,7 +8,7 @@ const get = async(oldAmount, oldCurrency, newCurrency) => {
             throw new Error(await response.text());
 
         const data = await response.json();
-        return data.value;
+        return data.value.toFixed(2);
     }
     catch(error) {
         alert(error);

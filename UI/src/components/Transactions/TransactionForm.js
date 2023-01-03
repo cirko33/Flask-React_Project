@@ -160,7 +160,7 @@ const TransacionForm = () => {
       <div className={receiverControlClasses}>
         <Input
           ref={receiverEmailInputRef}
-          label={"Receiver Email"}
+          label={"Email"}
           input={{ id: "receiver" }}
         />
       </div>
@@ -193,6 +193,7 @@ const TransacionForm = () => {
           <Button onClick={onChangeType}>
             {type === "online" ? "Bank" : "Online"}
           </Button>
+          <br/><br/>
           {inputContext}
           <div className={amountControlClasses}>
             <Input
