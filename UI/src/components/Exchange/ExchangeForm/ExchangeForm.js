@@ -51,11 +51,10 @@ const ExchangeForm = (props) => {
     }
 
     const changeHandler = async(event) => {
-        event.preventDefault();
         if(checkValid()) {
             const oldAmount = oldAmountRef.current.value;
             const data = {
-                "oldAmount": oldAmount,
+                "oldValue": oldAmount,
                 "oldCurrency": oldCurrency,
                 "newCurrency": newCurrency
             };
@@ -65,15 +64,10 @@ const ExchangeForm = (props) => {
     }
 
     const checkHandler = async(event) => {
-        event.preventDefault();
         if(checkValid()) {
             const oldAmount = oldAmountRef.current.value;
-            const data = {
-                "oldAmount": oldAmount,
-                "oldCurrency": oldCurrency,
-                "newCurrency": newCurrency
-            };
-            const response = await exchangeService.get(data);
+            
+            const response = await exchangeService.get(oldAmount, oldCurrency, newCurrency);
             if(response != null) 
                 setNewAmount(response);
         }
@@ -91,7 +85,7 @@ const ExchangeForm = (props) => {
                 <select value={oldCurrency} onChange={e => setOldCurrency(e.target.value)}>
                     {
                         rates.map((key) => 
-                            <option value={key}>{key}</option>
+                            <option key={key} value={key}>{key}</option>
                         )
                     }
                 </select>
@@ -101,7 +95,7 @@ const ExchangeForm = (props) => {
                 <select value={newCurrency} onChange={e => setNewCurrency(e.target.value)}>
                     {
                         rates.map((key) => 
-                            <option value={key}>{key}</option>
+                            <option key={key} value={key}>{key}</option>
                         )
                     }
                 </select>

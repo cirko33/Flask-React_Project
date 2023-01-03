@@ -1,6 +1,6 @@
 const get = async(oldAmount, oldCurrency, newCurrency) => {
     try {
-        const response = await fetch(`http://localhost:5000/exchange?token=${sessionStorage.getItem("token")}&value=${oldAmount}&oldCurrency=${oldCurrency}&newCurrency=${newCurrency}`, {
+        const response = await fetch(`http://localhost:5000/exchange/${sessionStorage.getItem("user")}?oldValue=${oldAmount}&oldCurrency=${oldCurrency}&newCurrency=${newCurrency}`, {
             method: "GET"
         });
 
@@ -8,7 +8,7 @@ const get = async(oldAmount, oldCurrency, newCurrency) => {
             throw new Error(await response.text());
 
         const data = await response.json();
-        return data;
+        return data.value;
     }
     catch(error) {
         alert(error);
@@ -18,7 +18,7 @@ const get = async(oldAmount, oldCurrency, newCurrency) => {
 
 const post = async(data) => {
     try {
-        const response = await fetch("http://localhost:5000/exchange/" + sessionStorage.getItem("token"), {
+        const response = await fetch("http://localhost:5000/exchange/" + sessionStorage.getItem("user"), {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
