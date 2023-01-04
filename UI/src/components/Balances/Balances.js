@@ -74,7 +74,7 @@ const Balances = () => {
 
   let content = (
     <React.Fragment>
-    <h1>YOUR CURRENT BALANCES:</h1>
+    <h1 className={styles.h1}>YOUR CURRENT BALANCES:</h1>
     <ul>
         {balances.map((balance) => (
           <Balance
