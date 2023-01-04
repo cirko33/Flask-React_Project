@@ -59,6 +59,8 @@ class Exchange(Resource):
                 db.session.add(newBalance)
             
             oldBalance.amount -= args["oldValue"]
+            if oldBalance.amount == 0:
+                db.session.delete(oldBalance)
             newBalance.amount += exchangeMoney(args["oldValue"], args["oldCurrency"], args["newCurrency"])
             db.session.commit()
             return "OK", 200

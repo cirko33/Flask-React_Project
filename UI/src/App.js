@@ -18,6 +18,7 @@ function App() {
 
   useEffect(() => {
     if(authCtx.isLoggedIn) {
+      setVerified(sessionStorage.getItem('verified') === '1')
       const isUserVerified = async () => {
         const response = await fetch(
           "http://localhost:5000/userProfile/" + authCtx.user
@@ -29,6 +30,7 @@ function App() {
 
         const data = await response.json();
 
+        sessionStorage.setItem('verified', data.verified ? "1" : "0");
         setVerified(data.verified);
       };
 

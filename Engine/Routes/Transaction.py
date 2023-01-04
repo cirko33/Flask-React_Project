@@ -41,6 +41,9 @@ class TransactionProfile(Resource):
             if token not in activeTokens.keys():
                 return "Please login to continue.", 400
             email = activeTokens[token]
+            
+            if args["amount"] <= 0:
+                return "Amount must be greater than 0", 400
             addTransaction(token, (email, args['receiver'], args['amount'], args['currency'], args['type']))
             return "OK", 200
         except Exception as e:

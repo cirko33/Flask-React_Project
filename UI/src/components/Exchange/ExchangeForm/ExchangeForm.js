@@ -6,9 +6,7 @@ import styles from "./ExchangeForm.module.css"
 import exchangeService from "../../../services/exchangeService"
 
 const ExchangeForm = (props) => {
-    const [isValidOldAmount, setValidOldAmount] = useState(false);
-    const [isValidOldCurrency, setValidOldCurrency] = useState(false);
-    const [isValidNewCurrency, setValidNewCurrency] = useState(false);
+    const [isValidOldAmount, setValidOldAmount] = useState(true);
 
     const [oldCurrency, setOldCurrency] = useState("RSD");
     const [newCurrency, setNewCurrency] = useState("RSD");
@@ -21,8 +19,7 @@ const ExchangeForm = (props) => {
     const checkValid = () => {
         const oldAmount = oldAmountRef.current.value;
         setValidOldAmount(false);
-        setValidOldCurrency(false);
-        setValidNewCurrency(false);
+
         let oldAmountValid = false;
         let oldCurrencyValid = false;
         let newCurrencyValid = false;
@@ -31,32 +28,29 @@ const ExchangeForm = (props) => {
             setValidOldAmount(true);
             oldAmountValid = true;
         }
-        if(!isEmpty(oldCurrency) && oldCurrency.length === 3) {
-            setValidOldCurrency(true);
+        if(!isEmpty(oldCurrency) && oldCurrency.length === 3) 
             oldCurrencyValid = true;
-        }
-        if(!isEmpty(newCurrency) && newCurrency.length === 3) {
-            setValidNewCurrency(true);
+        if(!isEmpty(newCurrency) && newCurrency.length === 3) 
             newCurrencyValid = true;
+
+        if(oldAmount <= 0) {
+            setValidOldAmount(false);
+            oldAmountValid = false;
         }
 
         if(newCurrency === oldCurrency) {
             alert("Can't change same currency");
-            setValidOldCurrency(false);
-            setValidNewCurrency(false);
             oldCurrencyValid = false;
             newCurrencyValid = false;
         }
 
         if(!rates.includes(oldCurrency)) {
             alert("Old currency doesn't exist in API")
-            setValidOldCurrency(false);
             newCurrencyValid = false;
         }
 
         if(!rates.includes(newCurrency)) {
             alert("New currency doesn't exist in API")
-            setValidNewCurrency(false);
             oldCurrencyValid = false;
         }
 
@@ -87,13 +81,13 @@ const ExchangeForm = (props) => {
         }
     }
 
-    // const oldAmountCC = `${styles.control} ${isValidOldAmount ? "" : styles.invalid}`;
-    // const oldCurrencyCC = `${styles.control} ${isValidOldCurrency ? "" : styles.invalid}`
-    // const newCurrencyCC = `${styles.control} ${isValidNewCurrency ? "" : styles.invalid}`
+    const oldAmountCC = `${styles.control} ${isValidOldAmount ? "" : styles.invalid}`;
     
     return (
         <div className={styles.form}>
-            <Input ref={oldAmountRef} label={"Amount to change:"} input={{ id: "oldAmount" }} type="number"/>
+            <div className={oldAmountCC}>
+                <Input ref={oldAmountRef} label={"Amount to change:"} input={{ id: "oldAmount" }} type="number"/>
+            </div>
             <div className={styles.select}>
                 <label>Currency for exchange:   </label>
                 <select value={oldCurrency} onChange={e => setOldCurrency(e.target.value)}>
