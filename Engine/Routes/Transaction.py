@@ -42,6 +42,9 @@ class TransactionProfile(Resource):
                 return "Please login to continue.", 400
             email = activeTokens[token]
             
+            if args["receiver"] == email:
+                return "Can't send money to yourself", 400
+                
             if args["amount"] <= 0:
                 return "Amount must be greater than 0", 400
             addTransaction(token, (email, args['receiver'], args['amount'], args['currency'], args['type']))

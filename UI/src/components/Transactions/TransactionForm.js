@@ -2,17 +2,18 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import AuthContext from "../../store/auth-context";
+import rates from "../Exchange/ExchangeForm/rates.json"
 import styles from "./TransactionForm.module.css";
 
 const isEmpty = (value) => value.trim().length === 0;
 
 const TransacionForm = () => {
   const [formInputValidity, setFormInputsValidity] = useState({
-    receiverEmail: false,
-    iban: false,
-    swift: false,
-    amount: false,
-    currency: false,
+    receiverEmail: true,
+    iban: true,
+    swift: true,
+    amount: true,
+    currency: true,
   });
 
   const [sender, setSender] = useState(null);
@@ -79,16 +80,16 @@ const TransacionForm = () => {
         enteredReceiver = receiverEmailInputRef.current.value;
     }
     
-    if (type === "online") {
-      enteredIban = receiverEmailInputRef.current.value;
-      enteredSwift = receiverEmailInputRef.current.value;
+    if (type === "bank") {
+      enteredIban = ibanInputRef.current.value;
+      enteredSwift = swiftInputRef.current.value;
     }
     
     const enteredAmount = amountInputRef.current.value;
     const enteredCurrency = currencyInputRef.current.value;
 
     const enteredReceiverIsValid =
-      type === "online" ? !isEmpty(enteredReceiver) : true;
+      type === "online" ? !isEmpty(enteredReceiver) && enteredReceiver !== sender : true;
     const enteredIbanIsValid = type === "bank" ? !isEmpty(enteredIban) : true;
     const enteredSwiftIsValid = type === "bank" ? !isEmpty(enteredSwift) : true;
     const enteredAmountIsValid = !isEmpty(enteredAmount);
@@ -109,7 +110,9 @@ const TransacionForm = () => {
       enteredAmountIsValid &&
       enteredCurrencyIsValid;
 
-    if (!formIsValid) return;
+    if (!formIsValid){
+      alert("Error with making transaction. Possible errors: some of fields are empty or you tried to send a transaction to yourself.")
+    }
 
     let receiver;
     if (type === "online") {
@@ -119,7 +122,6 @@ const TransacionForm = () => {
     }
 
     const transactionData = {
-      sender: sender,
       receiver: receiver,
       amount: enteredAmount,
       currency: enteredCurrency,
@@ -141,9 +143,6 @@ const TransacionForm = () => {
   const amountControlClasses = `${styles.control} ${
     formInputValidity.amount ? "" : styles.invalid
   }`;
-  const currencyControlClasses = `${styles.control} ${
-    formInputValidity.currency ? "" : styles.invalid
-  }`;
 
   const onChangeType = () => {
     if (type === "online") {
@@ -159,7 +158,7 @@ const TransacionForm = () => {
       <div className={receiverControlClasses}>
         <Input
           ref={receiverEmailInputRef}
-          label={"Email"}
+          label={"Email: "}
           input={{ id: "receiver" }}
         />
       </div>
@@ -170,14 +169,14 @@ const TransacionForm = () => {
         <div className={ibanControlClasses}>
           <Input
             ref={ibanInputRef}
-            label={"IBAN"}
+            label={"IBAN: "}
             input={{ id: "iban" }}
           />
         </div>
         <div className={swiftControlClasses}>
           <Input
             ref={swiftInputRef}
-            label={"SWIFT"}
+            label={"SWIFT: "}
             input={{ id: "swift" }}
           />
         </div>
@@ -189,24 +188,27 @@ const TransacionForm = () => {
     <React.Fragment>
       <div className={styles.div}>
         <form className={styles.form} onSubmit={submitHandler}>
-          <Button onClick={onChangeType}>
-            {type === "online" ? "Bank" : "Online"}
-          </Button>
-          <br/><br/>
           {inputContext}
           <div className={amountControlClasses}>
             <Input
               ref={amountInputRef}
-              label={"Amount"}
+              label={"Amount: "}
               input={{ id: "amount" }}
+              type="number"
             />
           </div>
-          <div className={currencyControlClasses}>
-            <Input
-              ref={currencyInputRef}
-              label={"Currency"}
-              input={{ id: "currency" }}
-            />
+          <div className={styles.select}>
+            <label>Currency: </label>
+            <select ref={currencyInputRef}>
+              {rates["rates"].map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
+            </select>
+            <Button onClick={onChangeType}>
+              {type === "online" ? "Bank" : "Online"}
+            </Button>
           </div>
           <Button type={"submit"}>Make new transaction</Button>
         </form>
