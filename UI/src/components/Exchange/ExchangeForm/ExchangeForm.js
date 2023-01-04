@@ -115,7 +115,7 @@ const ExchangeForm = (props) => {
                 </select>
             </div>
             <label className={styles.label}>Iznos: {newAmount}</label>
-            <br/>
+            <br/><br/>
             <Button className={styles.button} onClick={checkHandler}>Check exchange</Button> 
             <Button className={styles.button} onClick={changeHandler}>Exchange money</Button>
         </div>

@@ -66,14 +66,13 @@ const TransactionsOnlineFilter = (props) => {
         onChange={(event) => setReceiver(event.target.value)}
       />
       <br />
-      <label htmlFor="min-amount">Min amount:</label>
+      <label htmlFor="min-amount">Amount:</label>
       <input
         type="number"
         id="min-amount"
         value={minAmount}
         onChange={(event) => setMinAmount(event.target.value)}
-      />
-      <label htmlFor="max-amount">Max amount:</label>
+      />─
       <input
         type="number"
         id="max-amount"

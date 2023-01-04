@@ -6,10 +6,17 @@
   .leftContent {
     float: left;
     flex-basis: 45%;
+    margin-left: 1rem;
   }
   
   .rightContent {
     float: right;
     flex-basis: 35%;
+    width: max-content;
+  }
+
+  .button{
+    margin-left: 65%;
+    width: 20rem;
   }
   

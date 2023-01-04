@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import AuthContext from "../../store/auth-context";
-
-import styles from "../Register/Register.module.css";
+import styles from "./TransactionForm.module.css";
 
 const isEmpty = (value) => value.trim().length === 0;
 

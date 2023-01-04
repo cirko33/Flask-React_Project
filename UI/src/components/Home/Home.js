@@ -26,7 +26,7 @@ const Home = (props) => {
                 </div>
                 <div className={styles.rightContent}>
                     <Balances />
-                    <Button onClick={event => {localStorage.setItem("mode", (mode ? "0":"1")); setMode(!mode); }}>{mode ? "View transactions" : "Exchange money"}</Button>
+                    <Button className={styles.button} onClick={event => {localStorage.setItem("mode", (mode ? "0":"1")); setMode(!mode); }}>{mode ? "View transactions" : "Exchange money"}</Button>
                 </div>
             </div>
         }   

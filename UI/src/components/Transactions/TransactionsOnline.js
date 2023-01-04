@@ -29,7 +29,7 @@ const TransactionsOnline = (props) => {
 
   return (
     <React.Fragment>
-      <h1 className={styles.transactionOnline}>Your online transactions:</h1>
+      <h1>Your online transactions:</h1>
       <table className={styles.transactionTable}>
         <thead>
           <tr>

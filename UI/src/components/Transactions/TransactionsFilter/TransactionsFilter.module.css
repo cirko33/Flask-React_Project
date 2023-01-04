@@ -1,11 +1,10 @@
 .form {
     margin: 1rem 0;
-    height: 19rem;
+    height: auto;
     overflow: auto;
   }
 
   .form button {
-    margin-left: 15%;
     font: inherit;
     cursor: pointer;
     background-color: #8a2b06;
@@ -33,6 +32,8 @@
     border: 1px solid #ccc;
     font: inherit;
     padding-left: 0.5rem;
+    margin-bottom: .5rem;
+
   }
 
   .form select {
@@ -41,6 +42,7 @@
     border: 1px solid #ccc;
     font: inherit;
     padding-left: 0.5rem;
+    margin-bottom: .5rem;
   }
   
   .actions {
@@ -74,4 +76,3 @@
   .actions .submit:active {
     background-color: #7a2706;
   }
-  

@@ -74,9 +74,9 @@ const Transactions = () => {
 
   return (
     <React.Fragment>
-      <TransactionForm />
+      <TransactionForm /><br/>
       <TransactionsOnline list={filteredTransactionsOnline}/><br />
-      <TransactionsOnlineFilter list={transactionsOnline} filterOnlineTransactions={filterOnlineTransactionsHandler}/><br /><br />
+      <TransactionsOnlineFilter list={transactionsOnline} filterOnlineTransactions={filterOnlineTransactionsHandler}/><br/>
       <TransactionsBank list={filteredTransactionsBank}/><br />
       <TransactionsBankFilter list={transactionsBank} filterBankTransactions={filterBankTransactionsHandler}/>
     </React.Fragment>

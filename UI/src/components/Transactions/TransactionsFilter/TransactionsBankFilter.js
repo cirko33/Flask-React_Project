@@ -46,8 +46,7 @@ const TransactionsBankFilter = (props) => {
       const filtered = filterTransactions(props.list, iban, swift, minAmount, maxAmount, currency, state);
       props.filterOnlineTransactions(filtered);
     }
-    
-  
+      
     return (
       <form className={styles.form} onSubmit={handleSubmit}>
         <label htmlFor="sender">Iban:</label>
@@ -66,14 +65,13 @@ const TransactionsBankFilter = (props) => {
           onChange={(event) => setSwift(event.target.value)}
         />
         <br />
-        <label htmlFor="min-amount">Min amount:</label>
+        <label htmlFor="min-amount">Amount:</label>
         <input
           type="number"
           id="min-amount"
           value={minAmount}
           onChange={(event) => setMinAmount(event.target.value)}
-        />
-        <label htmlFor="max-amount">Max amount:</label>
+        />─      
         <input
           type="number"
           id="max-amount"
