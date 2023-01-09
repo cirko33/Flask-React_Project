@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import AuthContext from "../../store/auth-context";
-import rates from "../Exchange/ExchangeForm/rates.json"
+import rates from "../Exchange/ExchangeForm/rates.json";
 import styles from "./TransactionForm.module.css";
 
 const isEmpty = (value) => value.trim().length === 0;
@@ -34,7 +34,7 @@ const TransacionForm = () => {
       );
 
       if (!response.ok) {
-        throw new Error("Can't retrieve token, nobody is logged in..");
+        return;
       }
 
       const data = await response.json();
@@ -77,19 +77,21 @@ const TransacionForm = () => {
     let enteredIban = "";
     let enteredSwift = "";
     if (type === "online") {
-        enteredReceiver = receiverEmailInputRef.current.value;
+      enteredReceiver = receiverEmailInputRef.current.value;
     }
-    
+
     if (type === "bank") {
       enteredIban = ibanInputRef.current.value;
       enteredSwift = swiftInputRef.current.value;
     }
-    
+
     const enteredAmount = amountInputRef.current.value;
     const enteredCurrency = currencyInputRef.current.value;
 
     const enteredReceiverIsValid =
-      type === "online" ? !isEmpty(enteredReceiver) && enteredReceiver !== sender : true;
+      type === "online"
+        ? !isEmpty(enteredReceiver) && enteredReceiver !== sender
+        : true;
     const enteredIbanIsValid = type === "bank" ? !isEmpty(enteredIban) : true;
     const enteredSwiftIsValid = type === "bank" ? !isEmpty(enteredSwift) : true;
     const enteredAmountIsValid = !isEmpty(enteredAmount);
@@ -110,8 +112,10 @@ const TransacionForm = () => {
       enteredAmountIsValid &&
       enteredCurrencyIsValid;
 
-    if (!formIsValid){
-      alert("Error with making transaction. Possible errors: some of fields are empty or you tried to send a transaction to yourself.")
+    if (!formIsValid) {
+      alert(
+        "Error with making transaction. Possible errors: some of fields are empty or you tried to send a transaction to yourself."
+      );
     }
 
     let receiver;
@@ -167,11 +171,7 @@ const TransacionForm = () => {
     inputContext = (
       <React.Fragment>
         <div className={ibanControlClasses}>
-          <Input
-            ref={ibanInputRef}
-            label={"IBAN: "}
-            input={{ id: "iban" }}
-          />
+          <Input ref={ibanInputRef} label={"IBAN: "} input={{ id: "iban" }} />
         </div>
         <div className={swiftControlClasses}>
           <Input

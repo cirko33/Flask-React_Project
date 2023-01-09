@@ -74,6 +74,7 @@ export const AuthContextProvider = (props) => {
             setIsLoggedIn(false);
             sessionStorage.removeItem('isLoggedIn');
             sessionStorage.removeItem('user');    
+            sessionStorage.removeItem('verified');
             navigate("/login");       
         } catch (error){
             alert(error.message);
