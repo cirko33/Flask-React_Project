@@ -6,6 +6,7 @@ import LogIn from "./components/LogIn/LogIn.js";
 import Register from "./components/Register/Register.js";
 import UserInfo from "./components/UserInfo/UserInfo.js";
 import AuthContext from "./store/auth-context.js";
+import {set, server, setServer, isServerSet} from "./services/socketing";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,6 +40,11 @@ function App() {
       });
     }
   }, [authCtx.user, authCtx.isLoggedIn]);
+
+  useEffect(() => {
+    if(!isServerSet)
+      set();
+    });
 
   return (
     <React.Fragment>
