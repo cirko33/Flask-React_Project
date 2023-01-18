@@ -40,11 +40,6 @@ function App() {
     }
   }, [authCtx.user, authCtx.isLoggedIn]);
 
-  useEffect(() => {
-    if(!isServerSet)
-      set();
-    });
-
   return (
     <React.Fragment>
       <Header

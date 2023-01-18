@@ -30,7 +30,7 @@ class Login(Resource):
             token = createHash(args['email'], str(datetime.now().timestamp()))
             activeTokens[token] = args['email']
             
-            openProcess(token, request.sid)
+            openProcess(token, request.remote_addr)
             return make_response(jsonify({"token": token}), 200)
         except Exception as e:
             return "Error:" + str(e), 500
