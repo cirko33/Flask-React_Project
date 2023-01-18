@@ -5,13 +5,14 @@ const AuthContext = React.createContext({
     isLoggedIn: false,
     user: null,
     onLogout: () => {},
-    onLogin: (logInData) => {}
+    onLogin: (logInData) => {},
+    socket: null
 });
 
 export const AuthContextProvider = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
-
+    const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -46,7 +47,24 @@ export const AuthContextProvider = (props) => {
             setUser(data.token);
             setIsLoggedIn(true);
             sessionStorage.setItem('isLoggedIn', '1');
-            sessionStorage.setItem('user', data.token);         
+            sessionStorage.setItem('user', data.token);  
+            if(!socket) {
+                const newSocket = new WebSocket("http://localhost:5000/ws");
+                
+                newSocket.onopen = () => {
+                    console.log('ws opened');
+                }
+
+                newSocket.onmessage = (event) => {
+                    window.location.reload();
+                }
+
+                newSocket.onclose = () => {
+                    console.log('ws closed');
+                }
+
+                setSocket(newSocket);
+            }  
             navigate("/home");  
         } catch (error){
             alert(error.message);
@@ -75,6 +93,10 @@ export const AuthContextProvider = (props) => {
             sessionStorage.removeItem('isLoggedIn');
             sessionStorage.removeItem('user');    
             sessionStorage.removeItem('verified');
+            if(socket){
+                socket.close();
+                setSocket(null);
+            }
             navigate("/login");       
         } catch (error){
             alert(error.message);
@@ -87,7 +109,8 @@ export const AuthContextProvider = (props) => {
             isLoggedIn: isLoggedIn,
             user: user,
             onLogout: logOutHandler,
-            onLogin: logInHandler
+            onLogin: logInHandler,
+            socket: socket
         }}>
             {props.children}       
         </AuthContext.Provider>

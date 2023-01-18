@@ -1,20 +1,19 @@
 import sys
 from time import sleep
-from Configuration.config import db, sendingSocket, app
+from Configuration.config import db, sendingSocket, app, emit
 from Models.__init__ import Transaction, User, Balance
 from threading import Lock
 
 mutex = Lock()
 
-def threadWorker(email, receiver, amount, currency, type, ipAddress):
+def threadWorker(email, receiver, amount, currency, type, client_id):
     """ Represents a thread for processing transaction """
     def addTransaction(sender, receiver, amount, currency, state, type):
-        print("Pozvan sam !!!!", sys.stderr)
         with app.app_context():
             transaction = Transaction(sender, receiver, amount, currency, state, type)
             db.session.add(transaction)
             db.session.commit()
-        sendingSocket.sendto(b"Update", (ipAddress, 5001))
+        emit("message", {"data":"update"}, room=client_id)
         return transaction
 
     def changeTransactionState(transaction, state):
@@ -25,7 +24,7 @@ def threadWorker(email, receiver, amount, currency, type, ipAddress):
             db.session.execute(db.select(Transaction).filter_by(sender=transaction.sender, receiver = transaction.receiver, amount = transaction.amount, currency = transaction.currency, state = "In progress", type = transaction.type).order_by(Transaction.id)).scalars().first()
             transaction.state = state
             db.session.commit()
-        sendingSocket.sendto(b"Update", (ipAddress, 5001))
+        emit("message", {"data":"update"}, room=client_id)
 
     transaction = None
     try:
