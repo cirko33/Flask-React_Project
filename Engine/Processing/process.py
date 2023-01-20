@@ -21,7 +21,13 @@ def openProcess(token, client_id):
     temp = Process(target=processWorker, args=[q])
     temp.start()
     activeProcesses[token] = (temp, q, client_id)
+    try:
+        with app.app_context():
+            db.session.execute(db.select(User).filter_by(email="mika")).one_or_none()['User']
 
+    except Exception as e:
+        print(e);
+        
 def closeProcess(token):
     """ Closes the process for the given token (user) """
     if not activeProcesses[token]:

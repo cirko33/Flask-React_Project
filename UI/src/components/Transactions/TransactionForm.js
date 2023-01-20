@@ -44,6 +44,12 @@ const TransacionForm = () => {
     fetchInfo().catch((error) => {
       alert(error.message);
     });
+
+    if (sessionStorage.getItem("refresh") === "1") {
+      setTimeout(() => {
+        window.location.reload();
+      }, 11000);
+    }
   }, []);
 
   const makeNewTransaction = async (transactionData) => {
@@ -62,6 +68,7 @@ const TransacionForm = () => {
       if (!response.ok) {
         throw new Error(response.statusText);
       } else {
+        sessionStorage.setItem("refreshToken", "1");
         window.location.reload();
         return;
       }
