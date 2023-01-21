@@ -49,6 +49,7 @@ insert into user (email, password, firstName, lastName, address, city, phoneNumb
 insert into credit_card (cardNumber, userName, expirationDate, cvc, amount, bankAccountNumber) values ("1212121212121212", "Petar", "01/30", 123, 500, "1234567890");
 insert into credit_card (cardNumber, userName, expirationDate, cvc, amount, bankAccountNumber) values ("1234567891234567", "Sima", '12/30', 555, 1000, "5555555555");
 insert into credit_card (cardNumber, userName, expirationDate, cvc, amount, bankAccountNumber) values ("1111222233334444", "Zdravko", '12/30', 321, 20000, "9876543210");
+insert into credit_card (cardNumber, userName, expirationDate, cvc, amount, bankAccountNumber) values ("5555666677778888", "Laza", '01/30', 321, 20000, "88888888");
 
 insert into balance (accountNumber, amount, currency) values (1, 50, "EUR");
 insert into balance (accountNumber, amount, currency) values (1, 20, "USD");

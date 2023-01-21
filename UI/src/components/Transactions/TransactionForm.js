@@ -46,7 +46,7 @@ const TransacionForm = () => {
     });
 
     if (sessionStorage.getItem("refresh") === "1") {
-      setTimeout(() => {
+      setInterval(() => {
         sessionStorage.removeItem("refresh");
         window.location.reload();
       }, 11000);
@@ -69,7 +69,7 @@ const TransacionForm = () => {
       if (!response.ok) {
         throw new Error(response.statusText);
       } else {
-        sessionStorage.setItem("refreshToken", "1");
+        sessionStorage.setItem("refresh", "1");
         window.location.reload();
         return;
       }

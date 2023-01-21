@@ -13,6 +13,9 @@ ip_address = socket.gethostbyname(hostname).split('.')
 hostbase = f"{ip_address[0]}.{ip_address[1]}.{ip_address[2]}"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://root:Drs_2022@{hostbase}.1:9000/drsdb'
+app.config['SQLALCHEMY_POOL_SIZE'] = 5
+app.config['SQLALCHEMY_MAX_OVERFLOW'] = 2
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Drs_2022'
 app.config['MYSQL_DATABASE_DB'] = 'drsdb'

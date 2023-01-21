@@ -15,7 +15,6 @@ flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 flask_restful = "*"
 flask-cors = "*"
-flask-socketio = "*"
 
 [dev-packages]
 
