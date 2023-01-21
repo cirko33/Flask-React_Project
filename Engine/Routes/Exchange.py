@@ -65,6 +65,6 @@ class Exchange(Resource):
             db.session.commit()
             return "OK", 200
         except Exception as e:
-            return "Error:" + str(e), 500
+            return "Error:" + str(e), 400
 
 api.add_resource(Exchange, "/exchange/<string:token>")

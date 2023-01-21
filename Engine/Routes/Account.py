@@ -33,7 +33,7 @@ class Account(Resource):
                 list.append(result)                    
             return make_response(jsonify(list), 200)
         except Exception as e:
-            return "Error: " + str(e), 500
+            return "Error: " + str(e), 400
     
     def post(self, token): 
         """ Deposit from credit card to account"""
@@ -69,8 +69,8 @@ class Account(Resource):
                 db.session.commit()
                 return "OK", 200
             else:
-                return "Error", 500 
+                return "Error", 400 
         except Exception as e:
-            return "Error: " + str(e), 500
+            return "Error: " + str(e), 400
 
 api.add_resource(Account, "/accountBalance/<string:token>")
