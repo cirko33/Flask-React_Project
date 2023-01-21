@@ -47,6 +47,7 @@ const TransacionForm = () => {
 
     if (sessionStorage.getItem("refresh") === "1") {
       setTimeout(() => {
+        sessionStorage.removeItem("refresh");
         window.location.reload();
       }, 11000);
     }
